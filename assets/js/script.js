@@ -102,71 +102,44 @@ function error( ) {
     console.log( 'error' )
 }
 
-//function to randomly generate a cocktail drink
-function randomBtnHandler() {
-    //url already set by DB, set as variable
-    var randomDrinkUrl = "https://www.thecocktaildb.com/api/json/v1/1/random.php";
-    //fetch it
-    fetch(randomDrinkUrl).then(function(response) {
-        
-        //if comes back ok
-        if (response.ok) {
-        response.json().then(function(data) {
-            // put into object to pull from later
-            parseRandomDrink (data)
-        });
-        // if fail
-        } else {
-            error()
-        }
-    })
-
-    // catch
-    .catch( function (error) {
-        error()
-    })
-
-};
-
-function parseRandomDrink (data) {
     //create object to match parse functions above
     var randomDrinkOutput = {}
     randomDrinkOutput.name = data.drinks[0].strDrink;
     randomDrinkOutput.image = data.drinks[0].strDrinkThumb;
-    randomDrinkOutput.measure1 = data.drinks[0].strMeasure1;
-    randomDrinkOutput.measure2 = data.drinks[0].strMeasure2;
-    randomDrinkOutput.measure3 = data.drinks[0].strMeasure3;
-    randomDrinkOutput.measure4 = data.drinks[0].strMeasure4;
-    randomDrinkOutput.measure5 = data.drinks[0].strMeasure5;
-    randomDrinkOutput.measure6 = data.drinks[0].strMeasure6;
-    randomDrinkOutput.measure7 = data.drinks[0].strMeasure7;
-    randomDrinkOutput.measure8 = data.drinks[0].strMeasure8;
-    randomDrinkOutput.measure9 = data.drinks[0].strMeasure9;
-    randomDrinkOutput.measure10 = data.drinks[0].strMeasure10;
-    randomDrinkOutput.measure11 = data.drinks[0].strMeasure11;
-    randomDrinkOutput.measure12 = data.drinks[0].strMeasure12;
-    randomDrinkOutput.measure13 = data.drinks[0].strMeasure13;
-    randomDrinkOutput.measure14 = data.drinks[0].strMeasure14;
-    randomDrinkOutput.measure15 = data.drinks[0].strMeasure15;
-    randomDrinkOutput.ingredient1 = data.drinks[0].strIngredient1;
-    randomDrinkOutput.ingredient2 = data.drinks[0].strIngredient2;
-    randomDrinkOutput.ingredient3 = data.drinks[0].strIngredient3;
-    randomDrinkOutput.ingredient4 = data.drinks[0].strIngredient4;
-    randomDrinkOutput.ingredient5 = data.drinks[0].strIngredient5;
-    randomDrinkOutput.ingredient6 = data.drinks[0].strIngredient6;
-    randomDrinkOutput.ingredient7 = data.drinks[0].strIngredient7;
-    randomDrinkOutput.ingredient8 = data.drinks[0].strIngredient8;
-    randomDrinkOutput.ingredient9 = data.drinks[0].strIngredient9;
-    randomDrinkOutput.ingredient10 = data.drinks[0].strIngredient10;
-    randomDrinkOutput.ingredient11 = data.drinks[0].strIngredient11;
-    randomDrinkOutput.ingredient12 = data.drinks[0].strIngredient12;
-    randomDrinkOutput.ingredient13 = data.drinks[0].strIngredient13;
-    randomDrinkOutput.ingredient14 = data.drinks[0].strIngredient14;
-    randomDrinkOutput.ingredient15 = data.drinks[0].strIngredient15;
     randomDrinkOutput.directions = data.drinks[0].strInstructions;
+
+    // init recipe array
+    var recipe = []
+
+    // loop from 0 to 14
+    for ( var i = 0; i < 15; i++) {
+        // init ingredient and measure
+        var ingredient, measure
+        // if ingredient exists, set variable
+        if( data.drinks[0][`strIngredient${i+1}`] ) {
+            // set ingredient var
+            ingredient = data.drinks[0][`strIngredient${i+1}`]
+            // if measure exists, set, else use 'to taste'
+            if( data.drinks[0][`strMeasure${i+1}`] ) {
+                measure = data.drinks[0][`strMeasure${i+1}`]
+            } else {
+                measure = 'To taste'
+            }
+            // create object of each ingredient set
+            var step = {
+                ingredient: ingredient,
+                measure: measure
+            }
+            recipe[i] = step
+        }   
+    }
+    // add recipe property
+    randomDrinkOutput.recipe = recipe
+
     //log the new object
-    console.log(randomDrinkOutput);
+    console.log( randomDrinkOutput );
 }
+
 // run historical factoid function
 getNow();
 
