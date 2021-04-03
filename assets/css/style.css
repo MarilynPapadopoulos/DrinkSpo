@@ -101,3 +101,12 @@
       grid-row-start: 3;
       grid-row-end: 4;
    }
+  
+   @media screen and (min-width: 576px) {
+      #header {width: 100%;}
+      #date {width: 100%;}
+      #title {width: 100%;}
+      #trivia {width: 100%;}
+      #email {width: 100%;}
+      footer {width: 100%;}
+   }
