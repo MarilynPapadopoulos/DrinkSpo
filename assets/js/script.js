@@ -16,6 +16,7 @@ function getNow() {
     getFactoid( date );
 };
 
+// get factoid API call
 function getFactoid( date ) {  
     // set api url
     var apiUrl = `https://byabbe.se/on-this-day/${date.month}/${date.day}/events.json`;
@@ -59,6 +60,7 @@ function parseFactoid( data ) {
     return output
 };
 
+// get beer API call
 function getBeer( data ) {
         // set api url
     var apiUrl = `https://api.punkapi.com/v2/beers/random`;
@@ -97,10 +99,31 @@ function parseBeer( data ) {
     return output
 };
 
-// error function
-function error( ) {
-    console.log( 'error' )
-}
+// get cocktail API call
+function getCocktail() {
+    //url already set by DB, set as variable
+    var randomDrinkUrl = "https://www.thecocktaildb.com/api/json/v1/1/random.php";
+    //fetch it
+    fetch(randomDrinkUrl).then(function(response) {
+
+        //if comes back ok
+        if (response.ok) {
+        response.json().then(function(data) {
+            // put into object to pull from later
+            parseRandomDrink (data)
+        });
+        // if fail
+        } else {
+            error()
+        }
+    })
+
+    // catch
+    .catch( function (error) {
+        error()
+    })
+
+};
 
 function parseRandomDrink (data) {
     //create object to match parse functions above
@@ -139,6 +162,11 @@ function parseRandomDrink (data) {
 
     //log the new object
     console.log( randomDrinkOutput );
+};
+
+// error function
+function error( ) {
+    console.log( 'error' )
 }
 
 // run historical factoid function
@@ -147,7 +175,7 @@ getNow();
 // run the get beer function
 getBeer();
 
-//for the time being, running function to console log
-randomBtnHandler();
+// run the get cocktail function
+getCocktail();
 //await click for randomize function.  Once clicked, run randomBtnHandler function
 // userFormEl.addEventListener("submit", randomBtnHandler);
