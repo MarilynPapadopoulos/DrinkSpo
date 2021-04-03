@@ -102,9 +102,52 @@ function error( ) {
     console.log( 'error' )
 }
 
+function parseRandomDrink (data) {
+    //create object to match parse functions above
+    var randomDrinkOutput = {}
+    randomDrinkOutput.name = data.drinks[0].strDrink;
+    randomDrinkOutput.image = data.drinks[0].strDrinkThumb;
+    randomDrinkOutput.directions = data.drinks[0].strInstructions;
+
+    // init recipe array
+    var recipe = []
+
+    // loop from 0 to 14
+    for ( var i = 0; i < 15; i++) {
+        // init ingredient and measure
+        var ingredient, measure
+        // if ingredient exists, set variable
+        if( data.drinks[0][`strIngredient${i+1}`] ) {
+            // set ingredient var
+            ingredient = data.drinks[0][`strIngredient${i+1}`]
+            // if measure exists, set, else use 'to taste'
+            if( data.drinks[0][`strMeasure${i+1}`] ) {
+                measure = data.drinks[0][`strMeasure${i+1}`]
+            } else {
+                measure = 'To taste'
+            }
+            // create object of each ingredient set
+            var step = {
+                ingredient: ingredient,
+                measure: measure
+            }
+            recipe[i] = step
+        }   
+    }
+    // add recipe property
+    randomDrinkOutput.recipe = recipe
+
+    //log the new object
+    console.log( randomDrinkOutput );
+}
+
 // run historical factoid function
 getNow();
 
 // run the get beer function
 getBeer();
 
+//for the time being, running function to console log
+randomBtnHandler();
+//await click for randomize function.  Once clicked, run randomBtnHandler function
+// userFormEl.addEventListener("submit", randomBtnHandler);
