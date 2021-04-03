@@ -102,6 +102,7 @@ function error( ) {
     console.log( 'error' )
 }
 
+function parseRandomDrink (data) {
     //create object to match parse functions above
     var randomDrinkOutput = {}
     randomDrinkOutput.name = data.drinks[0].strDrink;
