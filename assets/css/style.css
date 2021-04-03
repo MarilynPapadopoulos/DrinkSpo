@@ -7,8 +7,8 @@
       width: 100vw;
       height: 100vh;
    }
-
-   .container{
+  /* 
+ .container{
       display: grid;
       width: 100vw;
       height: 100vh;
@@ -17,12 +17,13 @@
       column-gap: 10px;
       row-gap: 10px;
    }
+  
    header {
       display: grid;
       grid-column-start: 1;
       grid-column-end: 5;
-      grid-template-rows: repeat(2,50%);
-      grid-template-columns: repeat(4, 25%);
+      grid-row-start:1;
+      grid-row-end: 4;
    }
    h1 {
       grid-column-start: 1;
@@ -101,12 +102,19 @@
       grid-row-start: 3;
       grid-row-end: 4;
    }
-  
-   @media screen and (min-width: 576px) {
+  */
+   @media screen and (max-width: 576px) {
+      /*#wrapper {width: 95%;}
       #header {width: 100%;}
-      #date {width: 100%;}
+      #menu {width: 100%;}
       #title {width: 100%;}
       #trivia {width: 100%;}
       #email {width: 100%;}
-      footer {width: 100%;}
+      footer {width: 100%;}  */
+      .calendar {display:none;}
+      .settings {display:none;}
+      .history{display:none;}
+   }
+   @media screen and (min-width: 576px) {
+      .menu {display:none;}
    }
