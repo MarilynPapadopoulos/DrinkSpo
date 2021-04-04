@@ -56,9 +56,28 @@ function parseFactoid( data ) {
     // console for viewing
     console.log( output )
 
-    // retun output object
-    return output
+    // send output object to post
+    postFactoid( output )
 };
+
+// post factoid to DOM
+function postFactoid( data ) {
+    // create title
+    var triviaDate = $( '<p>' )
+        .attr( 'display', 'block' )
+        .text( `On this date in ${data.year}`);
+
+    // create trivia
+    var triviaText = $( '<p>' )
+        .attr( 'display', 'block' )
+        .text( data.description );    
+
+    // clear and append to DOM  
+    $( '#trivia-title' )
+        .html('')
+        .append( triviaDate )
+        .append( triviaText );
+}
 
 // get beer API call
 function getBeer( data ) {
@@ -93,11 +112,55 @@ function parseBeer( data ) {
     output.image = data[0].image_url;
     output.foodpairing = data[0].food_pairing
     output.abv = data[0].abv;
-    // console for viewing
-    console.log(output)
     // retun output object
-    return output
+    displayBeer( output )
 };
+
+function displayBeer( data ) {
+    console.log(data)
+    // set drink title
+    var title = $( '#display-title' )
+        .text( `Drink of the day: ${data.name} (${data.abv}%)`)
+    // generate image and set alt
+    var imageTag = $( '<img>' )
+        .attr( 'src', data.image )   
+        .attr( 'alt', data.name ) 
+    // clear current image and post 
+    $( '#display-image' )
+        .html( '' )
+        .append( imageTag )
+    //generate directions
+    var tagline = $( '<p>' )
+        .attr( 'display', 'block' )
+        .text( data.tagline )
+
+    //food pairings
+    var pairingTitle = $( '<p>' )
+    .attr( 'display', 'block' )
+    .text( 'Recommended Food Pairing' )
+
+    // generate ul
+    var list = $( '<ul>' )
+    // generate li loop
+    for ( var i = 0; i < data.foodpairing.length; i++ ) {
+        // ingredient span
+        var pair = $( '<span>' )
+            .text( data.foodpairing[i])
+        // li
+        var li = $( '<li>' )
+            .append( pair )
+        // add li to list
+        list.append( li )
+    }
+
+    // clear current text and post
+    $( '#display-text' )
+        .html( '' )
+        .append( tagline )  
+        .append( pairingTitle )
+        .append( list ) 
+
+}
 
 // get cocktail API call
 function getCocktail() {
@@ -110,6 +173,7 @@ function getCocktail() {
         if (response.ok) {
         response.json().then(function(data) {
             // put into object to pull from later
+            console.log( data )
             parseRandomDrink (data)
         });
         // if fail
@@ -125,7 +189,7 @@ function getCocktail() {
 
 };
 
-function parseRandomDrink (data) {
+function parseRandomDrink ( data ) {
     //create object to match parse functions above
     var randomDrinkOutput = {}
     randomDrinkOutput.name = data.drinks[0].strDrink;
@@ -160,9 +224,51 @@ function parseRandomDrink (data) {
     // add recipe property
     randomDrinkOutput.recipe = recipe
 
-    //log the new object
-    console.log( randomDrinkOutput );
+    // send object to post
+    displayCocktail( randomDrinkOutput );
 };
+
+function displayCocktail ( data ) {
+    // set drink title
+    var title = $( '#display-title' )
+        .text( `Drink of the day: ${data.name}`)
+    // generate image and set alt
+    var imageTag = $( '<img>' )
+        .attr( 'src', data.image )   
+        .attr( 'alt', data.name ) 
+    // clear current image and post 
+    $( '#display-image' )
+        .html( '' )
+        .append( imageTag )
+    //generate directions
+    var directions = $( '<p>' )
+        .attr( 'display', 'block' )
+        .text( data.directions )
+
+    // generate ul
+    var list = $( '<ul>' )
+    // generate li loop
+    for ( var i = 0; i < data.recipe.length; i++ ) {
+        // ingredient span
+        var ingr = $( '<span>' )
+            .text( `${data.recipe[i].ingredient}: ` )
+        // measure span
+        var meas = $( '<span>' )
+            .text( data.recipe[i].measure )
+        // li
+        var li = $( '<li>' )
+            .append( ingr )
+            .append( meas )
+        // add li to list
+        list.append( li )
+    }
+
+    // clear current text and post
+    $( '#display-text' )
+        .html( '' )
+        .append( directions )  
+        .append( list )  
+}
 
 // error function
 function error( ) {
@@ -177,5 +283,7 @@ getBeer();
 
 // run the get cocktail function
 getCocktail();
+
+
 //await click for randomize function.  Once clicked, run randomBtnHandler function
 // userFormEl.addEventListener("submit", randomBtnHandler);
