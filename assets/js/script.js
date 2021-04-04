@@ -275,6 +275,94 @@ function error( ) {
     console.log( 'error' )
 }
 
+//Standard function to validate if an email was typed correctly
+function ValidateEmail(mail) 
+{
+ if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(myForm.emailAddr.value))
+  {
+    return (true)
+  }
+    // alert("You have entered an invalid email address!")
+    $('#email-div').html("Error:  Please ensure email was entered correctly");
+    return (false)
+}
+
+// get non alcaholic data, 57 total in the API
+function getNonAlcList() {
+    console.log("Entered Non Alc Function");
+    //url already set by DB, set as variable
+    var nonAlcDrinkUrl = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic";
+    //fetch it
+    fetch(nonAlcDrinkUrl).then(function(response) {
+
+        //if comes back ok
+        if (response.ok) {
+        response.json().then(function(data) {
+            // put into object to pull from later
+            console.log( data );
+            nonAlcRandom ( data );
+        });
+        // if fail
+        } else {
+            error()
+        }
+    })
+
+    // catch
+    .catch( function (error) {
+        error()
+    })
+
+};
+
+//Grabs an index number between 0-56 and outputs the corresponding drink id
+function nonAlcRandom ( data ) {
+    var idRandomize = Math.floor(Math.random () * 56)
+    console.log(idRandomize);
+    var getDrinkId = data.drinks[idRandomize].idDrink;
+    console.log(getDrinkId);
+    //outputs to get all of the non alcaholic drink information to be fetches and parsed
+    getNonAlcDrink (getDrinkId);
+}
+
+//Fetch the non alcaholic drink in the same fashion as the cocktails to be parsed and dispayed
+function getNonAlcDrink( getDrinkId ) {
+    //url already set by DB, set as variable
+    var nonAlcDrinkIdUrl = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + getDrinkId;
+    //fetch it
+    fetch(nonAlcDrinkIdUrl).then(function(response) {
+
+        //if comes back ok
+        if (response.ok) {
+        response.json().then(function(data) {
+            // put into object to pull from later
+            console.log( data );
+            parseRandomDrink ( data );
+        });
+        // if fail
+        } else {
+            error()
+        }
+    })
+
+    // catch
+    .catch( function (error) {
+        error()
+    })
+
+};
+
+$( "#beer-btn" ).click(function() {
+    getBeer();
+});
+
+$( "#cocktail-btn" ).click(function() {
+    getCocktail();
+});
+
+$( "#non-alc-btn" ).click(function() {
+    getNonAlcList();
+});
 // run historical factoid function
 getNow();
 

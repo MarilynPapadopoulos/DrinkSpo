@@ -7,6 +7,11 @@
       width: 100vw;
       height: 100vh;
    }
+
+#display-image img {
+   height: 40vw;
+   width: auto;
+}
   /* 
  .container{
       display: grid;
