@@ -52,10 +52,6 @@ function parseFactoid( data ) {
     // set output properties
     output.description = factoid.description;
     output.year = factoid.year
-
-    // console for viewing
-    console.log( output )
-
     // send output object to post
     postFactoid( output )
 };
@@ -117,7 +113,6 @@ function parseBeer( data ) {
 };
 
 function displayBeer( data ) {
-    console.log(data)
     // set drink title
     var title = $( '#display-title' )
         .text( `Drink of the day: ${data.name} (${data.abv}%)`)
@@ -173,7 +168,6 @@ function getCocktail() {
         if (response.ok) {
         response.json().then(function(data) {
             // put into object to pull from later
-            console.log( data )
             parseRandomDrink (data)
         });
         // if fail
@@ -273,7 +267,7 @@ function displayCocktail ( data ) {
 // error function
 function error( ) {
     console.log( 'error' )
-}
+};
 
 //Standard function to validate if an email was typed correctly
 function ValidateEmail(mail) 
@@ -285,7 +279,7 @@ function ValidateEmail(mail)
     // alert("You have entered an invalid email address!")
     $('#email-div').html("Error:  Please ensure email was entered correctly");
     return (false)
-}
+};
 
 // get non alcaholic data, 57 total in the API
 function getNonAlcList() {
@@ -299,7 +293,6 @@ function getNonAlcList() {
         if (response.ok) {
         response.json().then(function(data) {
             // put into object to pull from later
-            console.log( data );
             nonAlcRandom ( data );
         });
         // if fail
@@ -318,12 +311,10 @@ function getNonAlcList() {
 //Grabs an index number between 0-56 and outputs the corresponding drink id
 function nonAlcRandom ( data ) {
     var idRandomize = Math.floor(Math.random () * 56)
-    console.log(idRandomize);
     var getDrinkId = data.drinks[idRandomize].idDrink;
-    console.log(getDrinkId);
     //outputs to get all of the non alcaholic drink information to be fetches and parsed
     getNonAlcDrink (getDrinkId);
-}
+};
 
 //Fetch the non alcaholic drink in the same fashion as the cocktails to be parsed and dispayed
 function getNonAlcDrink( getDrinkId ) {
@@ -336,7 +327,6 @@ function getNonAlcDrink( getDrinkId ) {
         if (response.ok) {
         response.json().then(function(data) {
             // put into object to pull from later
-            console.log( data );
             parseRandomDrink ( data );
         });
         // if fail
@@ -344,12 +334,10 @@ function getNonAlcDrink( getDrinkId ) {
             error()
         }
     })
-
     // catch
     .catch( function (error) {
         error()
     })
-
 };
 
 $( "#beer-btn" ).click(function() {
@@ -363,14 +351,26 @@ $( "#cocktail-btn" ).click(function() {
 $( "#non-alc-btn" ).click(function() {
     getNonAlcList();
 });
+
+
 // run historical factoid function
 getNow();
 
-// run the get beer function
-getBeer();
-
-// run the get cocktail function
-getCocktail();
+// run randomizer for page load
+function randomLoad() {
+    //list of random functions
+    var types = [
+        getBeer,
+        getCocktail,
+        getNonAlcList,
+    ]
+    // randomized selection
+    var random = Math.floor( Math.random() * types.length )
+    // execute random function
+    types[random]()
+}
+// on page load, run random function
+randomLoad()
 
 
 //await click for randomize function.  Once clicked, run randomBtnHandler function
