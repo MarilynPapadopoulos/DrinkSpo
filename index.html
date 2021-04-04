@@ -18,32 +18,32 @@
                 <!--Heading, Page Title, Date, Hamburger Menu-->
                 <div class="row">
                     <div class="col">
-                        <div class="row">Page Title</div>
+                        <div id="page-title" class="row">Page Title</div>
                         <div class="row">
-                            <div class="col calendar">New Calendar Event</div>
-                            <div class="col">Date</div>
-                            <div class="col menu">Menu</div>
-                            <div class= "col settings">Setttings</div> 
+                            <div id="calendar" class="col calendar">New Calendar Event</div>
+                            <div id="current-date" class="col">Date</div>
+                            <div id="menu" class="col menu">Menu</div>
+                            <div id="settings" class= "col settings">Setttings</div> 
                         </div>             
                     </div>
                 </div>
 
                 <!--Main content, Title, Image, Recipe-->
                 <div class="row">
-                    <div class="col history">History</div>
+                    <div id="history" class="col history">History</div>
                     <div class="col">
-                        <div class="row">Title</div>
-                        <div class="row">Image and Text for small screens:
-                            <div class="col">
+                        <div id="display-title" class="row">Title</div>
+                        <div class="row">
+                            <div id="display-image" class="col">
                                 <img src="https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/27134650/Chihuahua-standing-in-three-quarter-view.jpg" class="img-fluid" alt="alcoholic drink">
                             </div>
-                            <div class="col">
+                            <div id="display-text" class="col">
                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident ullam quia eum doloremque sunt voluptas nostrum incidunt iure qui totam! Dolores quidem cupiditate, sint nulla velit soluta dignissimos atque dicta!</p>
                             </div>
                            
                         </div>
-                        <div class="row">Trivia
-                            <div class="col">
+                        <div id="trivia-title" class="row">Trivia
+                            <div id="trivia-text" class="col">
                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto velit consequatur blanditiis suscipit non? Harum ducimus praesentium voluptas minima cupiditate in id, eaque quasi autem velit voluptatem, minus hic dolorem. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic repellat quam cum id quisquam ducimus aliquam nobis vero obcaecati ipsa accusamus non fuga, fugiat asperiores quod nulla magnam, exercitationem accusantium.</p>
                             </div>
                         </div>
@@ -51,15 +51,18 @@
                 </div>
                     
                 <!--Send Email-->
-                <div class="row">Send as Email</div>
+                <div id="email-div" class="row">Send as Email</div>
 
                 <!--Footer, Team Awesome-->
-                <div class="row">Team Awesome</div>
+                <div id="footer-div" class="row">Team Awesome</div>
 
             </div>
         </div>
     </div>
-
+  <!-- Add jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </div>
 </body>

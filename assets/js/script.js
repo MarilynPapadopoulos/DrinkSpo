@@ -11,7 +11,7 @@ function getNow() {
         month: month,
         day: day
         };
-
+    $("#current-date").html("Date: " + today.toDateString());
     // send date to get factoid API call        
     getFactoid( date );
 };
