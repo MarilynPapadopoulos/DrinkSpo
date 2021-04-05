@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <title>Drinklet</title>
+</head>
+<body>
+<div class="parallax">
+<div class="wrapper">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+
+                <!--Heading, Page Title, Date, Hamburger Menu-->
+                <div class="row">
+                    <div class="col">
+                        <div id="page-title" class="row">
+                            <img src="./assets/images/logo.png">
+                        </div>
+                        <div class="row" id ="controls">
+                            <div id="calendar" class="col calendar">New Calendar Event</div>
+                            <div id="current-date" class="col">Date</div>
+                            <div id="menu" class="col menu">Menu</div>
+                            <div id="settings" class= "col settings">Setttings</div> 
+                        </div>             
+                    </div>
+                </div>
+
+                <!--Main content, Title, Image, Recipe-->
+                <div class="row" id="results-display">
+                    <div id="history" class="col-md-3 history">History
+                        <div class="collection" id ="drink-history">
+                            <ul id="history-list">
+                            </ul>
+                          </div>
+                    </div>
+                    <div class="col">
+                        <div id="display-title" class="row">Title</div>
+                        <a class="waves-effect waves-light btn-small" id="beer-btn">Beer Randomizer</a>
+                        <a class="waves-effect waves-light btn-small" id="cocktail-btn">Cocktail Randomizer</a>
+                        <a class="waves-effect waves-light btn-small" id="non-alc-btn">Non-Alcoholic</a>
+                        <div class="row">
+                            <div id="display-image" class="col-md-auto center">
+                                <img src="https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/27134650/Chihuahua-standing-in-three-quarter-view.jpg" class="img-fluid" alt="alcoholic drink">
+                            </div>
+                            <div id="display-text" class="col">
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident ullam quia eum doloremque sunt voluptas nostrum incidunt iure qui totam! Dolores quidem cupiditate, sint nulla velit soluta dignissimos atque dicta!</p>
+                            </div>
+                           
+                        </div>
+                        <div id="trivia-title" class="row">Trivia
+                            <div id="trivia-text" class="col">
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto velit consequatur blanditiis suscipit non? Harum ducimus praesentium voluptas minima cupiditate in id, eaque quasi autem velit voluptatem, minus hic dolorem. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic repellat quam cum id quisquam ducimus aliquam nobis vero obcaecati ipsa accusamus non fuga, fugiat asperiores quod nulla magnam, exercitationem accusantium.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    
+                <!--Send Email-->
+                <div id="email-div" class="row">Send as Email
+                    <input type="email" id="email" name="email">
+                </div>
+
+                <!--Footer, Team Awesome-->
+                <div id="footer-div" class="row">Team Awesome</div>
+
+            </div>
+        </div>
+    </div>
+  <!-- Add jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+    <script src="./assets/js/script.js"></script>
+</div>
+</div>
+</body>
+</html>

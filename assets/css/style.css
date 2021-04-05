@@ -1,0 +1,79 @@
+/* initial page settings */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  border: 1px solid black;
+}
+
+.parallax {
+  /* The image used */
+  background-image: url("https://image.freepik.com/free-photo/top-view-two-glasses-with-straws-watermelon-cocktails_23-2148691283.jpg");
+
+  /* Set a specific height */
+  min-height: 500px; 
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.container {
+  background-color: rgba(89, 53, 148, 0.7);
+  
+}
+/* wrapper for page */
+.wrapper {
+  width: 100vw;
+  height: auto;
+}
+
+#page-title {
+  display: flex;
+  justify-content: center;
+  background-color: rgba(5, 29, 20, 0.8);
+  border-radius: 15px;
+}
+
+#page-title img {
+  width: 40vw;
+  height: auto;
+}
+
+#results-display, #controls {
+  border-radius: 15px;
+  background-color: rgb(49, 159, 163);
+}
+/* image size max */
+#display-image img {
+  max-height: 30vh;
+  max-width: 30vw;
+}
+/* on small layout, hide */
+.calendar {
+  display: none;
+}
+.settings {
+  display: none;
+}
+.history {
+  display: none;
+}
+
+/* media query to show menu items */
+@media screen and (min-width: 576px) {
+  .menu {
+    display: none;
+  }
+  .calendar {
+    display: inline-block;
+  }
+  .settings {
+    display: inline-block;
+  }
+  .history {
+    display: inline-block;
+  }
+}
