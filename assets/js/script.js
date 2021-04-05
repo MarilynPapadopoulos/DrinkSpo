@@ -1,3 +1,10 @@
+// set initial search history
+var searchHistory = []
+// get storage of update history array
+getStorage()
+// display history list
+displayHistory()
+
 // get current date
 function getNow() {
     // get current date
@@ -105,8 +112,8 @@ function parseBeer( data ) {
     // set object attributes
     output.name = data[0].name;
     output.tagline = data[0].tagline;
-    output.image = data[0].image_url;
-    output.foodpairing = data[0].food_pairing
+    output.image_url = data[0].image_url;
+    output.food_pairing = data[0].food_pairing
     output.abv = data[0].abv;
     // retun output object
     displayBeer( output )
@@ -118,7 +125,7 @@ function displayBeer( data ) {
         .text( `Drink of the day: ${data.name} (${data.abv}%)`)
     // generate image and set alt
     var imageTag = $( '<img>' )
-        .attr( 'src', data.image )   
+        .attr( 'src', data.image_url )   
         .attr( 'alt', data.name ) 
     // clear current image and post 
     $( '#display-image' )
@@ -137,10 +144,10 @@ function displayBeer( data ) {
     // generate ul
     var list = $( '<ul>' )
     // generate li loop
-    for ( var i = 0; i < data.foodpairing.length; i++ ) {
+    for ( var i = 0; i < data.food_pairing.length; i++ ) {
         // ingredient span
         var pair = $( '<span>' )
-            .text( data.foodpairing[i])
+            .text( data.food_pairing[i])
         // li
         var li = $( '<li>' )
             .append( pair )
@@ -154,6 +161,9 @@ function displayBeer( data ) {
         .append( tagline )  
         .append( pairingTitle )
         .append( list ) 
+
+    // set item to storage
+    setStorage( data, 'parseBeer' )    
 
 }
 
@@ -184,45 +194,53 @@ function getCocktail() {
 };
 
 function parseRandomDrink ( data ) {
-    //create object to match parse functions above
     var randomDrinkOutput = {}
-    randomDrinkOutput.name = data.drinks[0].strDrink;
-    randomDrinkOutput.image = data.drinks[0].strDrinkThumb;
-    randomDrinkOutput.directions = data.drinks[0].strInstructions;
+    if( !data.drinks ) {
+        randomDrinkOutput.name = data[0].name;
+        randomDrinkOutput.image = data[0].image;
+        randomDrinkOutput.directions = data[0].directions;
+        randomDrinkOutput.recipe = data[0].recipe;
+    } else {
+    //create object to match parse functions above
+        randomDrinkOutput.name = data.drinks[0].strDrink;
+        randomDrinkOutput.image = data.drinks[0].strDrinkThumb;
+        randomDrinkOutput.directions = data.drinks[0].strInstructions;
+        // init recipe array
+        var recipe = []
 
-    // init recipe array
-    var recipe = []
-
-    // loop from 0 to 14
-    for ( var i = 0; i < 15; i++) {
-        // init ingredient and measure
-        var ingredient, measure
-        // if ingredient exists, set variable
-        if( data.drinks[0][`strIngredient${i+1}`] ) {
-            // set ingredient var
-            ingredient = data.drinks[0][`strIngredient${i+1}`]
-            // if measure exists, set, else use 'to taste'
-            if( data.drinks[0][`strMeasure${i+1}`] ) {
-                measure = data.drinks[0][`strMeasure${i+1}`]
-            } else {
-                measure = 'To taste'
-            }
-            // create object of each ingredient set
-            var step = {
-                ingredient: ingredient,
-                measure: measure
-            }
-            recipe[i] = step
-        }   
+        // loop from 0 to 14
+        for ( var i = 0; i < 15; i++) {
+            // init ingredient and measure
+            var ingredient, measure
+            // if ingredient exists, set variable
+            if( data.drinks[0][`strIngredient${i+1}`] ) {
+                // set ingredient var
+                ingredient = data.drinks[0][`strIngredient${i+1}`]
+                // if measure exists, set, else use 'to taste'
+                if( data.drinks[0][`strMeasure${i+1}`] ) {
+                    measure = data.drinks[0][`strMeasure${i+1}`]
+                } else {
+                    measure = 'To taste'
+                }
+                // create object of each ingredient set
+                var step = {
+                    ingredient: ingredient,
+                    measure: measure
+                }
+                recipe[i] = step
+            }   
+        }
+        // add recipe property
+        randomDrinkOutput.recipe = recipe
     }
-    // add recipe property
-    randomDrinkOutput.recipe = recipe
-
+  
     // send object to post
     displayCocktail( randomDrinkOutput );
 };
 
 function displayCocktail ( data ) {
+    console.log( data )
+
     // set drink title
     var title = $( '#display-title' )
         .text( `Drink of the day: ${data.name}`)
@@ -262,6 +280,9 @@ function displayCocktail ( data ) {
         .html( '' )
         .append( directions )  
         .append( list )  
+
+    // set item to storage
+    setStorage( data, 'parseRandomDrink' )    
 }
 
 // error function
@@ -372,6 +393,73 @@ function randomLoad() {
 // on page load, run random function
 randomLoad()
 
+// set storage entry
+function setStorage( data, query ) {
+    var storageItem = { 
+        function: query,
+        data: data,
+        timestamp: Date.now()
+     }
+        // search history to see if current item exists. If yes, splice out. This will move current entry to the top of the display list
+    $.each(searchHistory, function(i){
+        if(searchHistory[i].data.name === storageItem.data.name) {
+            searchHistory.splice(i,1);
+            return false;
+        }
+    });
+        // push to storage item
+    searchHistory.push( storageItem) 
+        // stringify
+    var string = JSON.stringify( searchHistory )
+        // set to localStorage
+    localStorage.setItem( 'drinklet-history', string )
+        // clear current display
+    $( '#history-list' )
+        .html( '' )
+     // post display
+    displayHistory()
+};
 
-//await click for randomize function.  Once clicked, run randomBtnHandler function
-// userFormEl.addEventListener("submit", randomBtnHandler);
+
+// get storage entries
+function getStorage() {
+    // set initial array
+    searchHistory = []
+    // if storage key exists, set variable as parse data
+    if( JSON.parse( localStorage.getItem( 'drinklet-history') ) ) {
+        searchHistory = JSON.parse( localStorage.getItem( 'drinklet-history') )
+    }
+};
+
+// display history list
+function displayHistory() {
+    // sort history list descending (newest first)
+var sortedDesc = searchHistory.sort(({timestamp:a}, {timestamp:b}) => b-a);
+    // set max value of list (13 items)
+var listValue = Math.min( sortedDesc.length, 13 )
+for ( var i = 0; i < listValue; i++) {
+    var span = $( '<span>' )
+        .text( sortedDesc[i].data.name )
+        .attr( 'dataset', JSON.stringify( sortedDesc[i] ) )
+    var li = $( '<li>' )
+        .append( span )
+    $( '#history-list' )
+        .append( li )    
+    }
+};
+
+// click on item from history
+$( '#history-list').on( 'click', 'li' , function() {
+    // get this
+    var info = $( this )
+        .find( 'span' )
+        .attr( 'dataset' )
+    var parse = JSON.parse( info )    
+    // get function
+    var functionToRun = parse.function
+    // get data
+    var dataObject = [parse.data]
+
+    // run function with stored data to post item
+    eval(functionToRun)( dataObject )
+})
