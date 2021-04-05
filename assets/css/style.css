@@ -8,7 +8,8 @@
 
 .parallax {
   /* The image used */
-  background-image: url("https://image.freepik.com/free-photo/top-view-two-glasses-with-straws-watermelon-cocktails_23-2148691283.jpg");
+  background-image: url("../images/AdobeStock_300695845.jpg");
+  /* background-color: #cccccc; */
 
   /* Set a specific height */
   min-height: 500px; 
