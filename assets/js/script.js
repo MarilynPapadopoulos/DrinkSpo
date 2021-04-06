@@ -163,7 +163,8 @@ function displayBeer( data ) {
         .append( list ) 
 
     // set item to storage
-    setStorage( data, 'parseBeer' )    
+    setStorage( data, 'parseBeer' ) 
+    missingImage();   
 
 }
 
@@ -463,3 +464,11 @@ $( '#history-list').on( 'click', 'li' , function() {
     // run function with stored data to post item
     eval(functionToRun)( dataObject )
 })
+
+function missingImage () {
+   var test = $( '#display-image' ).find( 'img' ).attr( 'src' )
+ 
+   if (!test) {
+    $( '#display-image' ).find( 'img' ).attr( 'src', "https://picsum.photos/200")
+   }
+}
