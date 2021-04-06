@@ -240,8 +240,6 @@ function parseRandomDrink ( data ) {
 };
 
 function displayCocktail ( data ) {
-    console.log( data )
-
     // set drink title
     var title = $( '#display-title' )
         .text( `Drink of the day: ${data.name}`)
@@ -289,18 +287,6 @@ function displayCocktail ( data ) {
 // error function
 function error( ) {
     console.log( 'error' )
-};
-
-//Standard function to validate if an email was typed correctly
-function ValidateEmail(mail) 
-{
- if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(myForm.emailAddr.value))
-  {
-    return (true)
-  }
-    // alert("You have entered an invalid email address!")
-    $('#email-div').html("Error:  Please ensure email was entered correctly");
-    return (false)
 };
 
 // get non alcaholic data, 57 total in the API
@@ -468,7 +454,7 @@ $( '#history-list').on( 'click', 'li' , function() {
 function missingImage () {
    var ifImage = $( '#display-image' ).find( 'img' ).attr( 'src' )
  
-   if (!test) {
-    $( '#display-image' ).find( 'img' ).attr( 'src', "./assets/images/beerplaceholder.jpeg)
+   if (!ifImage) {
+    $( '#display-image' ).find( 'img' ).attr( 'src', "./assets/images/beerplaceholder.jpeg")
    }
 }
