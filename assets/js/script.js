@@ -458,3 +458,20 @@ function missingImage () {
     $( '#display-image' ).find( 'img' ).attr( 'src', "./assets/images/beerplaceholder.jpeg")
    }
 }
+
+$( "#target" ).submit(function( event ) {
+    event.preventDefault();
+    var emailField = $( '#email' )
+        .val()
+        .trim();
+
+    emailGen( emailField )
+  });
+
+  function emailGen( addr ) {
+        console.log( addr )
+        var email = addr;
+        var subject = 'Test Subject';
+        var emailBody = 'Test Body';
+        window.location = 'mailto:' + email + '?subject=' + subject + '&body=' +   emailBody;
+  }
