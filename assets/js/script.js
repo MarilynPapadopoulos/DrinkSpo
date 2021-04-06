@@ -288,18 +288,6 @@ function error( ) {
     console.log( 'error' )
 };
 
-//Standard function to validate if an email was typed correctly
-function ValidateEmail(mail) 
-{
- if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(myForm.emailAddr.value))
-  {
-    return (true)
-  }
-    // alert("You have entered an invalid email address!")
-    $('#email-div').html("Error:  Please ensure email was entered correctly");
-    return (false)
-};
-
 // get non alcaholic data, 57 total in the API
 function getNonAlcList() {
     console.log("Entered Non Alc Function");
