@@ -466,9 +466,9 @@ $( '#history-list').on( 'click', 'li' , function() {
 })
 
 function missingImage () {
-   var test = $( '#display-image' ).find( 'img' ).attr( 'src' )
+   var ifImage = $( '#display-image' ).find( 'img' ).attr( 'src' )
  
    if (!test) {
-    $( '#display-image' ).find( 'img' ).attr( 'src', "https://picsum.photos/200")
+    $( '#display-image' ).find( 'img' ).attr( 'src', "./assets/images/beerplaceholder.jpeg)
    }
 }
