@@ -239,8 +239,6 @@ function parseRandomDrink ( data ) {
 };
 
 function displayCocktail ( data ) {
-    console.log( data )
-
     // set drink title
     var title = $( '#display-title' )
         .text( `Drink of the day: ${data.name}`)
@@ -463,3 +461,20 @@ $( '#history-list').on( 'click', 'li' , function() {
     // run function with stored data to post item
     eval(functionToRun)( dataObject )
 })
+
+$( "#target" ).submit(function( event ) {
+    event.preventDefault();
+    var emailField = $( '#email' )
+        .val()
+        .trim();
+
+    emailGen( emailField )
+  });
+
+  function emailGen( addr ) {
+        console.log( addr )
+        var email = addr;
+        var subject = 'Test Subject';
+        var emailBody = 'Test Body';
+        window.location = 'mailto:' + email + '?subject=' + subject + '&body=' +   emailBody;
+  }
