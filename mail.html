@@ -1,0 +1,49 @@
+<?php
+if($_POST["message"]) {
+    mail("your@email.address", "Form to email message", $_POST["message"], "From: an@email.address");
+}
+?>
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="input-group mb-3">
+        <input type="email`" class="form-control" id="useremail" placeholder="Enter Your Email Address" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <button class="btn btn-outline-secondary" type="button" id="mailBtn">Button</button>
+      </div>
+
+      <div class="modal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modal title</h5>
+              <textarea id="email-contents">
+
+              </textarea>
+            </div>
+            <div class="modal-body">
+              <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+<script src="./assets/js/mail.js"></script>
+    
+</body>
+</html>
