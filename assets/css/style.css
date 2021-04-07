@@ -23,7 +23,7 @@
 }
 
 .container {
-  background-color: rgba(89, 53, 148, 0.7);
+  background-color: rgba(44, 12, 85, 0.8);
 }
 
 /* wrapper for page */
@@ -37,20 +37,21 @@
   justify-content: center;
   background-color: rgba(5, 29, 20, 0.8);
   border-radius: 15px;
+  margin-top: 10px;
+  padding: 5px;
 }
 
 #current-date {
   font-size: 25px;
-  padding:15px;
+  padding: 20px;
 }
 
-#current-date {
-  --webkit-border-image: --webkit-gradient(linear, left top, left bottom, from(#00abeb), to(#fff), color-stop(0.5, #fff), color-stop(0.5, #66cc00)) 21 30 30 21 repeat repeat;
+#controls {
+  margin-top: 35px;
 }
-
 #page-title img {
-  width: 40vw;
-  height: auto;
+  width: auto;
+  height: 20vw;
 }
 
 h3 {
@@ -58,7 +59,10 @@ h3 {
 }
 
 #display-title {
+  display: flex;
+  justify-content: center;
   padding: 10px;
+  padding-top: 25px;
   font-size: 25px;
   word-wrap: normal;
 }
@@ -71,8 +75,27 @@ h3 {
   border-radius: 20px;
 }
 
+#history h3 {
+  display: flex;
+  justify-content: center;
+}
+#history-list {
+  padding-left: 20px;
+  /* margin: auto; */
+  flex-wrap: wrap;
+  border: 1px dotted grey;
+  border-radius: 15px;
+}
+
+#history span {
+  padding-bottom: 4px;
+}
 #history-list span:hover {
   color: rgb(240, 77, 213);
+}
+
+#buttons-div {
+  padding-bottom: 20px;
 }
 
 #results-display, #controls {
@@ -93,15 +116,9 @@ h3 {
 .settings {
   display: none;
 }
-.history {
+/* .history {
   display: none;
-}
-
-#footer-div {
-  display: flex;
-  font-size: 30px;
-
-}
+} */
 
 #trivia-title {
   background-color: rgb(37, 39, 84, 0.6);
@@ -109,16 +126,23 @@ h3 {
   border-bottom-right-radius: 0px;
   border-top-right-radius: 0px;
   padding: 10px;
+  padding-top: 20px;
+  border: 2px dotted darkblue;
+  font-size: 15px;
+  
 }
 
 #email-div {
   background-color: rgba(5, 29, 20, 0.8);
   border-radius: 15px;
   font-size: 20px;
+  padding-top: 17px;
 }
 
 #email {
   border: 1px dotted white;
+  width: 60%;
+  border-radius: 15px;
 }
 
 #footer-div {
@@ -130,11 +154,21 @@ h3 {
   height: auto;
 }
 
+#footer-div {
+  display: flex;
+  font-size: 30px;
+}
+
+#target {
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+
 /* media query to show menu items */
 @media screen and (min-width: 576px) {
-  .menu {
+  /* .menu {
     display: none;
-  }
+  } */
   .calendar {
     display: inline-block;
   }
@@ -153,9 +187,6 @@ h3 {
     display:flex;
     flex-direction: column;
   }
-
-
-
 }
 
 

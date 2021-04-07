@@ -1,27 +1,33 @@
-# find_your_drink
+# Drinkspo
 
+## Purpose
+A website that delivers beer and cocktail beverage insporation while displaying 
+relevant facts about the current day in history.
 
+## Built With
+* HTML
+* CSS
+* JQuery
+* Materialize
+* Bootstrap
+* Javascript
 
+## Website
+https://lernantino.github.io/run-buddy/
 
+## Contribution
+Made with ❤️ by Aimee Jesso, Marilyn Papadupoulos, Swan Pham, Andrew Olgilvie
 
-
-
-
-
-
-
-
-
-
-
-
-
+### ©️2019 Drinkspo Inc - Awesome Possums
+![Screenshot](./assets/images/Drinksposcreen.png)
 
 ### References, sources and credits
-Common JS Email validate
-https://www.w3resource.com/javascript/form/email-validation.php 
 
-<a href='https://www.freepik.com/photos/space'>Space photo created by freepik - www.freepik.com</a>
+https://www.freepik.com/photos/space Space photo created by freepik - www.freepik.com
 
-Background image:
-https://www.freepik.com/free-photo/top-view-two-glasses-with-straws-watermelon-cocktails_10339556.htm#page=3&query=soft+drinks+soft+drink+glass&position=47
+Background image: Adobe Stock - Licensed
+
+API Credit to The Cocktail DB Punk API Wikipedia, On this Day
+
+Favicon IO
+https://favicon.io/
