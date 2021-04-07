@@ -13,7 +13,7 @@ relevant facts about the current day in history.
 * Javascript
 
 ## Website
-https://lernantino.github.io/run-buddy/
+https://primalorb.github.io/find_your_drink/
 
 ## Contribution
 Made with ❤️ by Aimee Jesso, Marilyn Papadupoulos, Swan Pham, Andrew Olgilvie
