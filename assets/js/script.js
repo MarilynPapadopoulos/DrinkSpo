@@ -134,11 +134,13 @@ function displayBeer( data ) {
     //generate directions
     var tagline = $( '<p>' )
         .attr( 'display', 'block' )
+        .attr( 'id', 'tagline' )
         .text( data.tagline )
 
     //food pairings
     var pairingTitle = $( '<p>' )
     .attr( 'display', 'block' )
+    .attr( 'id', 'pairing' )
     .text( 'Recommended Food Pairing' )
 
     // generate ul
@@ -254,6 +256,7 @@ function displayCocktail ( data ) {
     //generate directions
     var directions = $( '<p>' )
         .attr( 'display', 'block' )
+        .attr( 'id', 'directions' )
         .text( data.directions )
 
     // generate ul
@@ -262,12 +265,15 @@ function displayCocktail ( data ) {
     for ( var i = 0; i < data.recipe.length; i++ ) {
         // ingredient span
         var ingr = $( '<span>' )
+            .attr( 'id', 'ingr' )
             .text( `${data.recipe[i].ingredient}: ` )
         // measure span
         var meas = $( '<span>' )
+            .attr( 'id', 'meas' )
             .text( data.recipe[i].measure )
         // li
         var li = $( '<li>' )
+            .attr( 'id', 'recipe' )
             .append( ingr )
             .append( meas )
         // add li to list
@@ -459,19 +465,129 @@ function missingImage () {
    }
 }
 
+// listen for submit of email
 $( "#target" ).submit(function( event ) {
     event.preventDefault();
     var emailField = $( '#email' )
         .val()
         .trim();
-
+    // send email to generation function
     emailGen( emailField )
-  });
+    // clear email after clicking
+    $( '#email' )
+        .val( '' )
 
-  function emailGen( addr ) {
-        console.log( addr )
-        var email = addr;
-        var subject = 'Test Subject';
-        var emailBody = 'Test Body';
-        window.location = 'mailto:' + email + '?subject=' + subject + '&body=' +   emailBody;
-  }
+});
+
+// email generation
+function emailGen( addr ) {
+    // get drink title
+    var title = $( '#display-title')
+        .text()
+        .toLowerCase()
+
+    // check to see if item has a tagline (therefore is a beer)    
+    var desc = $( '#display-text' )
+        .find( '#tagline' )
+    // init body
+    var body = []    
+    // if is beer    
+    if( desc[0] ) { // generate this email content
+        // Greeting
+        body.push( 'Hey there!' )
+        body.push( '%0D%0A' )
+        body.push( '%0D%0A' )
+        body.push( 'I found this drink which I thought you might enjoy. ' )
+
+        // get just the beer name
+        var titleBody = title
+                        .replace( 'drink of the day: ', '' )
+        // capitalize the first letter
+        titleBody = titleBody[0].toUpperCase() + titleBody.substring(1)                
+
+        var tagline = desc
+                        .text()
+                        .toLowerCase()
+        body.push( `${titleBody} is a`)                
+        body.push( tagline )
+        body.push( '%0D%0A' )
+        body.push( '%0D%0A' )
+
+        body.push( 'Here are a few foods that I would recommend for pairing:' )
+        body.push( '%0D%0A' )
+        var pairings = $( '#display-text')
+            .find( 'li' )
+            .each( function( i ) {
+                body.push( '-' )
+                body.push( $(this)
+                                .find( 'span' )
+                                .text()
+                                )
+                body.push( '%0D%0A' )
+            })
+
+        body.push( '%0D%0A' )    
+        body.push( 'Enjoy!' )
+        body.push( '%0D%0A' ) 
+        
+        body = body.join(' ')    
+
+    } else { // otherwise is cocktail, // generate this email content
+        // Greeting
+        body.push( 'Hey there!' )
+        body.push( '%0D%0A' )
+        body.push( '%0D%0A' )
+        body.push( 'I found this drink which I thought you might enjoy, the' )
+
+        // get just the cocktail name
+        var titleBody = title
+                        .replace( 'drink of the day: ', '' )
+        // capitalize the first letter
+        titleBody = titleBody[0].toUpperCase() + titleBody.substring(1)      
+        
+        desc = $( '#display-text' )
+            .find( '#directions' )
+            .text()
+        
+        body.push( `${titleBody}!`)                
+        body.push( '%0D%0A' )
+        body.push( '%0D%0A' )
+        body.push( `To make the ${titleBody}: ` )
+        body.push( desc )
+        body.push( '%0D%0A' )
+        body.push( '%0D%0A' )
+
+        body.push( 'Here is the recipe:' )
+        body.push( '%0D%0A' )
+        var recipe = $( '#display-text')
+            .find( 'li' )
+            .each( function( i ) {
+                body.push( '-' )
+                body.push( $(this)
+                                .find( '#ingr' )
+                                .text()
+                                )
+                body.push( $(this)
+                                .find( '#meas' )
+                                .text()
+                                )
+                body.push( '%0D%0A' )
+            })
+
+        body.push( '%0D%0A' )    
+        body.push( 'Enjoy!' )
+        body.push( '%0D%0A' ) 
+        
+        body = body.join(' ')  
+    }    
+
+        // console.log( desc)
+
+
+
+    // email to:
+    var email = addr;
+    var subject = `Check out this ${title}!`;
+    var emailBody = body;
+    window.location = 'mailto:' + email + '?subject=' + subject + '&body=' +   emailBody;
+}

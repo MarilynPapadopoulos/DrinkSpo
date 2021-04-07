@@ -1,14 +1,15 @@
 /* initial page settings */
 * {
   box-sizing: border-box;
-  padding: 0;
+  /* padding: 0;
   margin: 0;
-  border: 1px solid black;
+  border: 1px solid black; */
+  color: azure;
 }
 
 .parallax {
   /* The image used */
-  background-image: url("../images/AdobeStock_300695845.jpg");
+  background-image: url("../images/cocktailbg.jpg");
   /* background-color: #cccccc; */
 
   /* Set a specific height */
@@ -22,9 +23,9 @@
 }
 
 .container {
-  background-color: rgba(89, 53, 148, 0.7);
-  
+  background-color: rgba(44, 12, 85, 0.8);
 }
+
 /* wrapper for page */
 .wrapper {
   width: 100vw;
@@ -36,22 +37,78 @@
   justify-content: center;
   background-color: rgba(5, 29, 20, 0.8);
   border-radius: 15px;
+  margin-top: 10px;
+  padding: 5px;
 }
 
+#current-date {
+  font-size: 25px;
+  padding: 20px;
+}
+
+#controls {
+  margin-top: 35px;
+}
 #page-title img {
-  width: 40vw;
-  height: auto;
+  width: auto;
+  height: 20vw;
+}
+
+h3 {
+  font-size: 25px;
+}
+
+#display-title {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  padding-top: 25px;
+  font-size: 25px;
+  word-wrap: normal;
+}
+
+#display-title a {
+  display: flex;
+  justify-content: center;
+  background-color: blueviolet;
+  padding: 4px;
+  border-radius: 20px;
+}
+
+#history h3 {
+  display: flex;
+  justify-content: center;
+}
+#history-list {
+  padding-left: 20px;
+  /* margin: auto; */
+  flex-wrap: wrap;
+  border: 1px dotted grey;
+  border-radius: 15px;
+}
+
+#history span {
+  padding-bottom: 4px;
+}
+#history-list span:hover {
+  color: rgb(240, 77, 213);
+}
+
+#buttons-div {
+  padding-bottom: 20px;
 }
 
 #results-display, #controls {
   border-radius: 15px;
-  background-color: rgb(49, 159, 163);
+  background-color: rgb(19, 62, 63, 0.8);
 }
+
 /* image size max */
 #display-image img {
   max-height: 30vh;
   max-width: 30vw;
 }
+
 /* on small layout, hide */
 .calendar {
   display: none;
@@ -59,15 +116,59 @@
 .settings {
   display: none;
 }
-.history {
+/* .history {
   display: none;
+} */
+
+#trivia-title {
+  background-color: rgb(37, 39, 84, 0.6);
+  border-radius: 15px;
+  border-bottom-right-radius: 0px;
+  border-top-right-radius: 0px;
+  padding: 10px;
+  padding-top: 20px;
+  border: 2px dotted darkblue;
+  font-size: 15px;
+  
+}
+
+#email-div {
+  background-color: rgba(5, 29, 20, 0.8);
+  border-radius: 15px;
+  font-size: 20px;
+  padding-top: 17px;
+}
+
+#email {
+  border: 1px dotted white;
+  width: 60%;
+  border-radius: 15px;
+}
+
+#footer-div {
+  display: flex;
+}
+
+#footer-div img {
+  width: 100px;
+  height: auto;
+}
+
+#footer-div {
+  display: flex;
+  font-size: 30px;
+}
+
+#target {
+  padding-bottom: 15px;
+  padding-top: 15px;
 }
 
 /* media query to show menu items */
 @media screen and (min-width: 576px) {
-  .menu {
+  /* .menu {
     display: none;
-  }
+  } */
   .calendar {
     display: inline-block;
   }
@@ -78,3 +179,15 @@
     display: inline-block;
   }
 }
+
+
+
+@media screen and (min-width: 884px) {
+  .btn-style {
+    display:flex;
+    flex-direction: column;
+  }
+}
+
+
+
