@@ -1,33 +1,33 @@
 # Drinkspo
 
 ## Purpose
-A website that delivers beer and cocktail beverage insporation while displaying 
+A website that delivers beer and cocktail beverage inspiration while displaying 
 relevant facts about the current day in history.
 
 ## Built With
 * HTML
 * CSS
-* JQuery
-* Materialize
-* Bootstrap
 * Javascript
+* [JQuery](https://jquery.com/)
+* [Materialize](https://materializecss.com/)
+* [Bootstrap](https://getbootstrap.com/)
+* [Favicon.io](https://favicon.io/)
 
 ## Website
 https://primalorb.github.io/find_your_drink/
 
 ## Contribution
-Made with ❤️ by Aimee Jesso, Marilyn Papadupoulos, Swan Pham, Andrew Olgilvie
+Made with ❤️ by [Aimee Jesso](https://github.com/MissAimeeJay), [Marilyn Papadupoulos](https://github.com/MarilynPapadopoulos), [Swan Pham](https://github.com/swanpham), [Andrew Olgilvie](https://github.com/PrimalOrB)
 
 ### ©️2019 Drinkspo Inc - Awesome Possums
 ![Screenshot](./assets/images/Drinksposcreen.png)
 
 ### References, sources and credits
+* Space photo created by [freepik](https://www.freepik.com/photos/space)
+* Background image: [Adobe Stock](https://stock.adobe.com/ca/) - Licensed
 
-https://www.freepik.com/photos/space Space photo created by freepik - www.freepik.com
+## API Credit to 
+* [The Cocktail dB](https://www.thecocktaildb.com/api.php)
+* [Punk API](https://punkapi.com/) 
+* [On this Day](https://byabbe.se/on-this-day/) which utilized Wikipedia
 
-Background image: Adobe Stock - Licensed
-
-API Credit to The Cocktail DB Punk API Wikipedia, On this Day
-
-Favicon IO
-https://favicon.io/
