@@ -592,10 +592,15 @@ function emailGen( addr ) {
     window.location = 'mailto:' + email + '?subject=' + subject + '&body=' +   emailBody;
 }
 
-$('#of-age').on('click', function(e) {
-    e.preventDefault;
+//$('#of-age').on('click', function(e) {
+//    e.preventDefault;
+    $(document).ready(function () {
+        $(".modal").modal();
+        $('#modal1').modal('open');
+ 
+
     //getStorage(underage);
-    console.log("clicked");
+   
     var drink_userPref = { 
         underage: false,  
         displayCocktail: true,   
@@ -604,10 +609,18 @@ $('#of-age').on('click', function(e) {
         factsDeaths: false,   
         factsEvents: true 
     }
+  
+    $('#btn-no').click(function() {
+        drink_userPref.underage = true;
+        getNonAlcList();
+    });
     console.log(drink_userPref.underage);
-    drink_userPref.underage = true;
-    console.log(drink_userPref.underage);
+
     var drink_userPrefToString =JSON.stringify(drink_userPref);
     localStorage.setItem("underage", drink_userPrefToString);
+
+ 
     
-})
+    });
+    
+//})
