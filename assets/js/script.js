@@ -591,3 +591,22 @@ function emailGen( addr ) {
     var emailBody = body;
     window.location = 'mailto:' + email + '?subject=' + subject + '&body=' +   emailBody;
 }
+
+$('#of-age').on('click', function(e) {
+    e.preventDefault;
+    //getStorage(underage);
+    console.log("clicked");
+    var drink_userPref = { 
+        underage: false,  
+        displayCocktail: true,   
+        displayBeer: true,   
+        factsBirthdays: false,   
+        factsDeaths: false,   
+        factsEvents: true 
+    }
+    console.log(drink_userPref.underage);
+    drink_userPref.underage = true;
+    console.log(drink_userPref.underage);
+    setStorage(underage, drink_userPref.underage);
+    
+})
