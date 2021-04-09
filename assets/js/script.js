@@ -591,3 +591,39 @@ function emailGen( addr ) {
     var emailBody = body;
     window.location = 'mailto:' + email + '?subject=' + subject + '&body=' +   emailBody;
 }
+
+//$('#of-age').on('click', function(e) {
+//    e.preventDefault;
+    $(document).ready(function () {
+        $(".modal").modal();
+        $('#modal1').modal('open');
+ 
+
+    //getStorage(underage);
+   
+    var drink_userPref = { 
+        underage: false,  
+        displayCocktail: true,   
+        displayBeer: true,   
+        factsBirthdays: false,   
+        factsDeaths: false,   
+        factsEvents: true 
+    }
+  
+    $('#btn-no').click(function() {
+        drink_userPref.underage = true;
+        console.log("clicked no/true", drink_userPref.underage);
+        getNonAlcList();
+
+        localStorage.setItem('underage', drink_userPref.underage);
+    });
+    
+
+    //var drink_userPrefToString =JSON.stringify(drink_userPref);
+    //localStorage.setItem("underage", drink_userPrefToString);
+
+ 
+    
+    });
+    
+//})
