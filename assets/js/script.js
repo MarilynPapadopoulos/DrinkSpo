@@ -607,6 +607,7 @@ $('#of-age').on('click', function(e) {
     console.log(drink_userPref.underage);
     drink_userPref.underage = true;
     console.log(drink_userPref.underage);
-    setStorage(underage, drink_userPref.underage);
+    var drink_userPrefToString =JSON.stringify(drink_userPref);
+    localStorage.setItem("underage", drink_userPrefToString);
     
 })
