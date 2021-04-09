@@ -612,12 +612,15 @@ function emailGen( addr ) {
   
     $('#btn-no').click(function() {
         drink_userPref.underage = true;
+        console.log("clicked no/true", drink_userPref.underage);
         getNonAlcList();
-    });
-    console.log(drink_userPref.underage);
 
-    var drink_userPrefToString =JSON.stringify(drink_userPref);
-    localStorage.setItem("underage", drink_userPrefToString);
+        localStorage.setItem('underage', drink_userPref.underage);
+    });
+    
+
+    //var drink_userPrefToString =JSON.stringify(drink_userPref);
+    //localStorage.setItem("underage", drink_userPrefToString);
 
  
     
