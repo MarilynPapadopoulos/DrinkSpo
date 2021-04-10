@@ -10,24 +10,29 @@ var storedEvents = []
 // get storage of events
 getEvents()
 // display events
-displayEvents()
+// is at the end of each "display..." function so that the API content exists already to generate emails
+
+// run historical factoid function on pageload
+getNow();
 
 // get current date
 function getNow() {
-    // get current date
+        // get current date
     var today = new Date();
-    // extract month
+        // extract month
     var month = today.getMonth() + 1;
-    // extract day
+        // extract day
     var day = today.getDate();
-    // date object
+        // date object
     var date = {
         month: month,
         day: day
         };
     $("#current-date").html("Date: " + today.toDateString());
-    // send date to get factoid API call        
+        // send date to get factoid AP  I call        
     getFactoid( date );
+        // on page load, run random function
+    randomLoad()
 };
 
 // get factoid API call
@@ -75,11 +80,13 @@ function postFactoid( data ) {
     // create title
     var triviaDate = $( '<p>' )
         .attr( 'display', 'block' )
+        .attr( 'id', 'trivia-date' )
         .text( `On this date in ${data.year}`);
 
     // create trivia
     var triviaText = $( '<p>' )
         .attr( 'display', 'block' )
+        .attr( 'id', 'trivia-text' )
         .text( data.description );    
 
     // clear and append to DOM  
@@ -172,8 +179,12 @@ function displayBeer( data ) {
         .append( list ) 
 
     // set item to storage
-    setStorage( data, 'parseBeer' ) 
+    setStorage( data, 'parseBeer' )
+    //handle missing image 
     missingImage();   
+
+    //display events
+    displayEvents()
 
 }
 
@@ -295,6 +306,9 @@ function displayCocktail ( data ) {
 
     // set item to storage
     setStorage( data, 'parseRandomDrink' )    
+
+    //display events
+    displayEvents()
 }
 
 // error function
@@ -373,11 +387,7 @@ $( "#non-alc-btn" ).click(function() {
     getNonAlcList();
 });
 
-
-// run historical factoid function
-getNow();
-
-// run randomizer for page load
+// run randomizer for through the getNow() function
 function randomLoad() {
     //list of random functions
     var types = [
@@ -390,8 +400,7 @@ function randomLoad() {
     // execute random function
     types[random]()
 }
-// on page load, run random function
-randomLoad()
+
 
 // set storage entry
 function setStorage( data, query ) {
@@ -419,7 +428,6 @@ function setStorage( data, query ) {
      // post display
     displayHistory()
 };
-
 
 // get storage entries
 function getStorage() {
@@ -464,6 +472,7 @@ $( '#history-list').on( 'click', 'li' , function() {
     eval(functionToRun)( dataObject )
 })
 
+// handle missing images from API
 function missingImage () {
    var ifImage = $( '#display-image' ).find( 'img' ).attr( 'src' )
  
@@ -488,6 +497,16 @@ $( "#target" ).submit(function( event ) {
 
 // email generation
 function emailGen( addr ) {
+    var data = addr
+    // if the incoming data is not an object, default some data
+    if(!data.name){
+        data = {
+            name: 'there',
+            email: addr,
+            note: '',
+        }
+    }
+
     // get drink title
     var title = $( '#display-title')
         .text()
@@ -497,14 +516,23 @@ function emailGen( addr ) {
     var desc = $( '#display-text' )
         .find( '#tagline' )
     // init body
-    var body = []    
+    var body = []   
+    
+    // Greeting
+    body.push( `Hey ${data.name}!` )
+    // if there a personal note, add here
+    if(data.note.length > 0) {
+        body.push( '%0D%0A' )
+        body.push( '%0D%0A' )   
+        body.push( data.note )
+    }
+    body.push( '%0D%0A' )
+    body.push( '%0D%0A' )
+    body.push( 'I found this drink which I thought you might enjoy. ' )
+    
+
     // if is beer    
     if( desc[0] ) { // generate this email content
-        // Greeting
-        body.push( 'Hey there!' )
-        body.push( '%0D%0A' )
-        body.push( '%0D%0A' )
-        body.push( 'I found this drink which I thought you might enjoy. ' )
 
         // get just the beer name
         var titleBody = title
@@ -533,20 +561,9 @@ function emailGen( addr ) {
                 body.push( '%0D%0A' )
             })
 
-        body.push( '%0D%0A' )    
-        body.push( 'Enjoy!' )
-        body.push( '%0D%0A' ) 
-        
-        body = body.join(' ')    
 
     } else { // otherwise is cocktail, // generate this email content
-        // Greeting
-        body.push( 'Hey there!' )
-        body.push( '%0D%0A' )
-        body.push( '%0D%0A' )
-        body.push( 'I found this drink which I thought you might enjoy, the' )
-
-        // get just the cocktail name
+              // get just the cocktail name
         var titleBody = title
                         .replace( 'drink of the day: ', '' )
         // capitalize the first letter
@@ -580,20 +597,31 @@ function emailGen( addr ) {
                                 )
                 body.push( '%0D%0A' )
             })
+    } 
 
-        body.push( '%0D%0A' )    
-        body.push( 'Enjoy!' )
-        body.push( '%0D%0A' ) 
-        
-        body = body.join(' ')  
-    }    
+    var triviaDate = $( '#trivia-date' )
+        .text()
+        .replace( 'On ', '');
+    var triviaText = $( '#trivia-text' )
+        .text();
+    
+    body.push( '%0D%0A' )    
+    body.push( `Finally, here is a random factoid from ${triviaDate} to add to your trivia knowledge!` )
+    body.push( '%0D%0A' ) 
+    body.push( `- ${triviaText}` ) 
+    body.push( '%0D%0A' )  
+    body.push( '%0D%0A' )   
+    body.push( 'Enjoy!' )
+    body.push( '%0D%0A' ) 
+    
+    body = body.join(' ')    
 
         // console.log( desc)
 
 
 
     // email to:
-    var email = addr;
+    var email = data.email;
     var subject = `Check out this ${title}!`;
     var emailBody = body;
     window.location = 'mailto:' + email + '?subject=' + subject + '&body=' +   emailBody;
@@ -673,6 +701,11 @@ function storeEvent(data) {
     }
         // add to array
     storedEvents.push(storageItem)
+        // loop in storage id
+    for( var i = 0; i < storedEvents.length; i++) {
+        storedEvents[i].i = i
+    }    
+
         // stringify
     var string = JSON.stringify( storedEvents )
         // set to localStorage
@@ -685,6 +718,8 @@ function storeEvent(data) {
         // reset display
     $('#event-list')
         .html( '' )
+        // mark email modal as already having been opened so it doesnt load right away if event is past already
+    emailModal = 1
         // run display function
     displayEvents()
 }
@@ -702,33 +737,45 @@ function getEvents(){
 
 // display events in settings list
 function displayEvents(){
+    //get updated event status on load
+    getEvents()
 
    // if there are stored events, display
     if(storedEvents.length){
-            // TBD once I have a time difference function
-        // var sortEvents = storedEvents.sort(({date:a}, {date:b}) => b-a);
+            // run updated date comparison
+        dateCompare(storedEvents)
+            // sort event
+        var sortEvents = storedEvents.sort(({diff:a}, {diff:b}) => a-b);
 
-        for (var i = 0; i < storedEvents.length; i++){
-            var date = new Date(storedEvents[i].date)
+        for (var i = 0; i < sortEvents.length; i++){
+            var date = new Date(sortEvents[i].date)
             date = date.toLocaleDateString()
 
                 // event content
-            var eventName = $( '<span>' )
-                .text(storedEvents[i].name)
+                var eventName = $( '<span>' )
+                .text(sortEvents[i].name)
             var eventEmail = $( '<span>' )
-                .text(storedEvents[i].email)
-            var eventNote = $( '<span>' )
-                .text(storedEvents[i].note)
+                .text(` ( ${sortEvents[i].email} ) `)
             var eventDate = $( '<span>' )
-                .text(date)
-            var eventRecurring = $( '<span>' )
-                .text(storedEvents[i].recurring)
+                .text(`${date} - `)
             var container = $( '<div>' )
+                .append( eventDate )
                 .append( eventName )
                 .append( eventEmail )
-                .append( eventNote )
-                .append( eventDate )
-                .append( eventRecurring )
+
+            var recurring = sortEvents[i].recurring
+                if(recurring) {
+                    var eventRecurring = $( '<span>' )
+                        .html(`<i class="fas fa-sync-alt"></i><i class="far fa-calendar-alt"></i>`)
+                    container.append( eventRecurring )
+                }     
+
+            var sent = sortEvents[i].send
+                if(sent) {
+                    var eventSent = $( '<span>' )
+                        .html(`<i class="fas fa-check"></i>`)
+                    container.append( eventSent )
+                }    
 
                 // delete button
             var del = $( '<span>' )
@@ -777,3 +824,122 @@ $( '#settings-modal' ).click( '.event-del', function(event){
     }
 
 })
+
+// compare dates to current (for local use only, does not need to be stored)
+function dateCompare(data){
+        // get current date
+    var now = Date.now()
+        // compare each time and add/update diff object property
+    for(var i = 0; i < data.length; i++) {
+            // negative number of days are in the past
+        data[i].diff = (data[i].date-now)/86400000
+    }
+    recurringEvent(data)
+
+        // check for unsent emails
+    triggeredEmail(data)  
+}
+
+// review recurring events
+function recurringEvent(data){
+    for( var i = 0; i < data.length; i++){
+        if(data[i].diff < -350 && data[i].recurring == true) {
+            data[i].date = data[i].date + 31536000000
+            data[i].send = false
+        }
+    }
+    // stringify
+    var string = JSON.stringify( data )
+        // set to localStorage
+    localStorage.setItem( 'drinkspo-events', string )
+
+    // return data
+}
+
+// generate email based on date past
+function triggeredEmail(data){
+        // filter for events with <=0 "diff" times
+    sendEvent = data.filter(x => x.diff <= 0 && x.send == false);
+
+        // init email loop
+    askToEmail(sendEvent)
+}
+// set counter on email modal open so it only opens once on page load
+var emailModal = 0
+// ask user if they want to send an email
+function askToEmail(data) {
+    if(data.length && emailModal === 0){
+            // create text string
+        var text = $( '<h6>' )
+            .text( `You have an un-sent email events from your calendar. Click and entry to send email`)
+            // create unordered list
+        var ul = $( '<ul>' )
+            // create list items
+        var sortEvents = data.sort(({diff:a}, {diff:b}) => a-b);
+
+        for (var i = 0; i < sortEvents.length; i++){
+            var date = new Date(sortEvents[i].date)
+            date = date.toLocaleDateString()
+
+                // event content
+            var eventName = $( '<span>' )
+                .text(sortEvents[i].name)
+            var eventEmail = $( '<span>' )
+                .text(` ( ${sortEvents[i].email} ) `)
+            var eventDate = $( '<span>' )
+                .text(`${date} - `)
+            var container = $( '<div>' )
+                .append( eventDate )
+                .append( eventName )
+                .append( eventEmail )
+
+            var recurring = sortEvents[i].recurring
+            if(recurring) {
+                var eventRecurring = $( '<span>' )
+                    .html(`<i class="fas fa-sync-alt"></i><i class="far fa-calendar-alt"></i>`)
+                container.append( eventRecurring )
+            }     
+
+            var line = $( '<li>' )
+                .addClass( 'event-item' )
+                .attr( 'id', i )
+                .attr( 'store-id', sortEvents[i].i)
+                .append(container)
+
+            ul.append( line )      
+        }
+
+            // clear and append text content    
+        $( '#email-content' )
+            .html( '' )
+            .append( text )
+            .append( ul )
+            // open email modal
+        $('#email-modal')
+            .modal('open')
+            // mark email modal as already having been opened
+        emailModal = 1   
+            // init response variable
+        $('#email-modal').click('li', function(event){
+            var target = $(event.target)
+            var storageIndex = target[0].attributes['store-id'].textContent
+                // find index in displayed list of entity
+            var index = storedEvents.findIndex( x => 
+                x.i == storageIndex
+            );
+                // set "sent" as true
+            storedEvents[index].send = true
+                // stringify
+            var string = JSON.stringify( storedEvents )
+                // set to localStorage
+            localStorage.setItem( 'drinkspo-events', string )
+                // send line to generate email
+            emailGen( sortEvents[target[0].id] )
+                // add tag to list item to show it was sent
+            var sendTag = $( '<span>' )
+                .html(`<i class="fas fa-check"></i>`)
+                .addClass( 'email-sent' );
+            target.append(sendTag)
+        })
+    }
+}
