@@ -10,6 +10,7 @@ var storedEvents = []
 // get storage of events
 getEvents()
 // display events
+displayEvents()
 
 // get current date
 function getNow() {
@@ -678,6 +679,11 @@ function storeEvent(data) {
         // close modal
     $('#calendar-modal')
         .modal('close')
+        // reset display
+    $('#event-list')
+        .html( '' )
+        // run display function
+    displayEvents()
 }
 
 // get events from storage
@@ -688,4 +694,64 @@ function getEvents(){
     if( JSON.parse( localStorage.getItem( 'drinklet-history') ) ) {
         storedEvents = JSON.parse( localStorage.getItem( 'drinkspo-events') )
     }
+        // run to-be-created time difference function which will look at now vs the stored date and give a difference (positive or negative)
 }
+
+// display events in settings list
+function displayEvents(){
+        // TBD once I have a time difference function
+    // var sortEvents = storedEvents.sort(({date:a}, {date:b}) => b-a);
+
+    for (var i = 0; i < storedEvents.length; i++){
+            // event content
+        var eventName = $( '<span>' )
+            .text(storedEvents[i].name)
+        var eventEmail = $( '<span>' )
+            .text(storedEvents[i].email)
+        var eventNote = $( '<span>' )
+            .text(storedEvents[i].note)
+        var eventDate = $( '<span>' )
+            .text(storedEvents[i].date)
+        var eventRecurring = $( '<span>' )
+            .text(storedEvents[i].recurring)
+        var container = $( '<div>' )
+            .append( eventName )
+            .append( eventEmail )
+            .append( eventNote )
+            .append( eventDate )
+            .append( eventRecurring )
+
+
+            // delete button
+        var del = $( '<span>' )
+            .addClass( 'event-del' )
+            .html('&times;')
+        var delDiv = $( '<div>' )
+            .append( del )
+
+        var line = $( '<li>' )
+            .attr( 'id', i)
+            .addClass( 'event-item' )
+            .append(container)
+            .append( delDiv )
+
+        $('#event-list')
+            .append( line )      
+    }
+}
+
+// delete event items
+$( '#settings-modal' ).click( '.event-del', function(event){
+        // get id of line to target within storage array
+    var target = $(event.target)
+            .closest( 'li' )
+            .attr( 'id' )
+        // splice out id
+    storedEvents.splice(target,1);
+        // reset display
+    $('#event-list')
+        .html( '' )
+        // run display function
+    displayEvents()
+
+})
