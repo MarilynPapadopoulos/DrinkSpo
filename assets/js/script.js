@@ -400,12 +400,27 @@ $( "#non-alc-btn" ).click(function() {
 
 // run randomizer for through the getNow() function
 function randomLoad() {
-    //list of random functions
-    var types = [
-        getBeer,
-        getCocktail,
-        getNonAlcList,
-    ]
+        // get up to date settings
+    getSettings()
+        // init types
+    var types = []
+        // if setting is true, add the function to the randomizer
+    if(drink_userPref.displayBeer){
+        types.push(getBeer)}
+    if(drink_userPref.displayCocktail){
+        types.push(getCocktail)}
+    if(drink_userPref.displayNonAlc){
+        types.push(getNonAlcList)}
+    
+        // if types has no entries (shouldnt happen) then all are added back in
+    if(!types.length){
+        types = [
+                getBeer,
+                getCocktail,
+                getNonAlcList,
+            ]
+    }
+
     // randomized selection
     var random = Math.floor( Math.random() * types.length )
     // execute random function
