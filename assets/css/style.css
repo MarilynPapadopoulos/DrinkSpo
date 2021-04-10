@@ -168,6 +168,17 @@ h3 {
   color: black;
   padding: 5px;
 }
+#buttons-div {
+  display: flex;
+  justify-content: space-evenly;
+
+}
+.btn-style {
+  background-color: rgb(111, 57, 161);
+  border-radius: 8px;
+  padding: 5px;
+  flex-wrap: wrap;
+}
 
 /* had to set this because materialize gets rid of check boxes for some reason???? */
 [type="checkbox"]:not(:checked),
