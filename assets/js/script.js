@@ -5,6 +5,12 @@ getStorage()
 // display history list
 displayHistory()
 
+// set initial event array
+var storedEvents = []
+// get storage of events
+getEvents()
+// display events
+
 // get current date
 function getNow() {
     // get current date
@@ -596,7 +602,7 @@ function emailGen( addr ) {
 //    e.preventDefault;
     $(document).ready(function () {
         $(".modal").modal();
-        $('#modal1').modal('open');
+        // $('#modal1').modal('open');
  
 
     //getStorage(underage);
@@ -627,3 +633,62 @@ function emailGen( addr ) {
     });
     
 //})
+
+
+// click on new calendar event button
+$('#calendar').click(function(){
+    //open modal
+    $('#calendar-modal')
+        .modal('open')
+    // generate date picker
+    $( "#contact-date" ).datepicker({
+        showButtonPanel: true
+      });
+})
+
+// listen for form submit
+$('#event-form').submit(function(event){
+    event.preventDefault()
+    var data = $(this).serializeArray()
+    storeEvent(data)
+})
+
+// set event storage
+function storeEvent(data) {
+    var name = data.find(x => x.name === 'contact-name');
+    var email = data.find(x => x.name === 'contact-email');
+    var note = data.find(x => x.name === 'contact-content');
+    var date = data.find(x => x.name === 'contact-date');
+
+    var recurring = data.find(x => x.name === 'event-recurring');
+    recurring == undefined ? recurring = {value:false} : recurring = {value:true}
+
+    var storageItem = {
+        name: name.value,
+        email: email.value,
+        note: note.value,
+        date: date.value,
+        recurring: recurring.value,
+        send: false,
+    }
+        // add to array
+    storedEvents.push(storageItem)
+        // stringify
+    var string = JSON.stringify( storedEvents )
+        // set to localStorage
+    localStorage.setItem( 'drinkspo-events', string )
+        // reset form
+    $('#event-form').trigger('reset')
+        // close modal
+    $('#calendar-modal')
+        .modal('close')
+}
+
+function getEvents(){
+        // set initial array
+        storedEvents = []
+        // if storage key exists, set variable as parse data
+    if( JSON.parse( localStorage.getItem( 'drinklet-history') ) ) {
+        storedEvents = JSON.parse( localStorage.getItem( 'drinkspo-events') )
+    }
+}
