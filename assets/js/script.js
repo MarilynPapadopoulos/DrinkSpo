@@ -701,6 +701,11 @@ function storeEvent(data) {
     }
         // add to array
     storedEvents.push(storageItem)
+        // loop in storage id
+    for( var i = 0; i < storedEvents.length; i++) {
+        storedEvents[i].i = i
+    }    
+
         // stringify
     var string = JSON.stringify( storedEvents )
         // set to localStorage
@@ -754,13 +759,16 @@ function displayEvents(){
             var eventDate = $( '<span>' )
                 .text(date)
             var eventRecurring = $( '<span>' )
-                .text(sortEvents[i].recurring)
+                .text(`recurring: ${sortEvents[i].recurring}`)
+            var eventSent = $( '<span>' )
+                .text(`sent: ${sortEvents[i].send}`)
             var container = $( '<div>' )
                 .append( eventName )
                 .append( eventEmail )
                 .append( eventNote )
                 .append( eventDate )
                 .append( eventRecurring )
+                .append( eventSent )
 
                 // delete button
             var del = $( '<span>' )
@@ -826,22 +834,83 @@ function dateCompare(data){
 // generate email based on date past
 function triggeredEmail(data){
         // filter for events with <=0 "diff" times
-    var sendEvent = data.filter(x => x.diff <= 0);
-    
-    for(var i = 0; i < sendEvent.length; i++){
-        var entry = sendEvent[i]
-        var response = askToEmail(entry)
-        if( response ){
-            emailGen(entry)
-        }
-    }
+    sendEvent = data.filter(x => x.diff <= 0 && x.send == false);
 
-
-    console.log(sendEvent)
+        // init email loop
+    askToEmail(sendEvent)
 }
 
 // ask user if they want to send an email
 function askToEmail(data) {
-    var queryUser = confirm(`do you want to email ${data.name}`)
-    return queryUser
+    if(data.length){
+            // create text string
+        var text = $( '<h6>' )
+            .text( `You have an un-sent email events from your calendar. Click and entry to send email`)
+            // create unordered list
+        var ul = $( '<ul>' )
+            // create list items
+        var sortEvents = data.sort(({diff:a}, {diff:b}) => a-b);
+
+        for (var i = 0; i < sortEvents.length; i++){
+            var date = new Date(sortEvents[i].date)
+            date = date.toLocaleDateString()
+
+                // event content
+            var eventName = $( '<span>' )
+                .text(sortEvents[i].name)
+            var eventEmail = $( '<span>' )
+                .text(sortEvents[i].email)
+            var eventNote = $( '<span>' )
+                .text(sortEvents[i].note)
+            var eventDate = $( '<span>' )
+                .text(date)
+            var eventRecurring = $( '<span>' )
+                .text(`recurring: ${sortEvents[i].recurring}`)
+            var container = $( '<div>' )
+                .append( eventName )
+                .append( eventEmail )
+                .append( eventNote )
+                .append( eventDate )
+                .append( eventRecurring )
+
+            var line = $( '<li>' )
+                .addClass( 'event-item' )
+                .attr( 'id', i )
+                .attr( 'store-id', sortEvents[i].i)
+                .append(container)
+
+            ul.append( line )      
+        }
+
+            // clear and append text content    
+        $( '#email-content' )
+            .html( '' )
+            .append( text )
+            .append( ul )
+            // open email modal
+        $('#email-modal')
+            .modal('open')
+            // init response variable
+        $('#email-modal').click('li', function(event){
+            var target = $(event.target)
+            var storageIndex = target[0].attributes['store-id'].textContent
+                // find index in displayed list of entity
+            var index = storedEvents.findIndex( x => 
+                x.i == storageIndex
+            );
+                // set "sent" as true
+            storedEvents[index].send = true
+                // stringify
+            var string = JSON.stringify( storedEvents )
+                // set to localStorage
+            localStorage.setItem( 'drinkspo-events', string )
+                // send line to generate email
+            emailGen( sortEvents[target[0].id] )
+                // add tag to list item to show it was sent
+            var sendTag = $( '<span>' )
+                .text( ' -sent' )
+                .addClass( 'email-sent' );
+            target.append(sendTag)
+        })
+    }
 }
