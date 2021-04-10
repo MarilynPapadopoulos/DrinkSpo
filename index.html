@@ -53,6 +53,12 @@
                         <button class="btn-style" id="cocktail-btn">Cocktail Randomizer</button>
                         <button class="btn-style" id="non-alc-btn">Non-Alcoholic</button>
                         </div>
+                        <div id="search-content">
+                            <form id="search-ing-container" autocomplete="on">
+                                <input type="text" id="ing-search" placeholder="Randomize a cocktail by ingredient">
+                                <input type="button" value="Search" class="btn-search" id="ing-search-btn">
+                            </form>
+                        </div>
                         <div class="row">
                             <div id="display-image" class="col-md-auto center">
                             </div>
@@ -60,15 +66,14 @@
                             </div>
                         </div>
                         <div id="trivia-title" class="row">
-                               
-                            </div>
                         </div>
                         
                     </div>
                 </div>
                     
                 <!--Send Email-->
-                <div id="email-div" class="row-md #4a148c center-align">Send as Email
+                <div id="email-div" class="row-md">
+                    <h5>Send as Email</h5>
                     <form id="target" autocomplete="on">
                         <input type="email" id="email" placeholder="Send this drink to a friend">
                         <input type="submit" value="Send Email" class="btn-style">
@@ -97,8 +102,8 @@
         <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="btn-no">No</a>
         </div>
     </div>
-
-    <!-- Email Modal -->
+    
+     <!-- Email Modal -->
     <div id="email-modal" class="modal">
         <div class="modal-header">
             <h4>Email Modal</h4>
