@@ -10,7 +10,7 @@ var storedEvents = []
 // get storage of events
 getEvents()
 // display events
-displayEvents()
+// is at the end of each "display..." function so that the API content exists already to generate emails
 
 // get current date
 function getNow() {
@@ -75,11 +75,13 @@ function postFactoid( data ) {
     // create title
     var triviaDate = $( '<p>' )
         .attr( 'display', 'block' )
+        .attr( 'id', 'trivia-date' )
         .text( `On this date in ${data.year}`);
 
     // create trivia
     var triviaText = $( '<p>' )
         .attr( 'display', 'block' )
+        .attr( 'id', 'trivia-text' )
         .text( data.description );    
 
     // clear and append to DOM  
@@ -172,8 +174,12 @@ function displayBeer( data ) {
         .append( list ) 
 
     // set item to storage
-    setStorage( data, 'parseBeer' ) 
+    setStorage( data, 'parseBeer' )
+    //handle missing image 
     missingImage();   
+
+    //display events
+    displayEvents()
 
 }
 
@@ -295,6 +301,9 @@ function displayCocktail ( data ) {
 
     // set item to storage
     setStorage( data, 'parseRandomDrink' )    
+
+    //display events
+    displayEvents()
 }
 
 // error function
@@ -488,6 +497,16 @@ $( "#target" ).submit(function( event ) {
 
 // email generation
 function emailGen( addr ) {
+    var data = addr
+    // if the incoming data is not an object, default some data
+    if(!data.name){
+        data = {
+            name: 'there',
+            email: addr,
+            note: '',
+        }
+    }
+
     // get drink title
     var title = $( '#display-title')
         .text()
@@ -497,14 +516,23 @@ function emailGen( addr ) {
     var desc = $( '#display-text' )
         .find( '#tagline' )
     // init body
-    var body = []    
+    var body = []   
+    
+    // Greeting
+    body.push( `Hey ${data.name}!` )
+    // if there a personal note, add here
+    if(data.note.length > 0) {
+        body.push( '%0D%0A' )
+        body.push( '%0D%0A' )   
+        body.push( data.note )
+    }
+    body.push( '%0D%0A' )
+    body.push( '%0D%0A' )
+    body.push( 'I found this drink which I thought you might enjoy. ' )
+    
+
     // if is beer    
     if( desc[0] ) { // generate this email content
-        // Greeting
-        body.push( 'Hey there!' )
-        body.push( '%0D%0A' )
-        body.push( '%0D%0A' )
-        body.push( 'I found this drink which I thought you might enjoy. ' )
 
         // get just the beer name
         var titleBody = title
@@ -533,20 +561,9 @@ function emailGen( addr ) {
                 body.push( '%0D%0A' )
             })
 
-        body.push( '%0D%0A' )    
-        body.push( 'Enjoy!' )
-        body.push( '%0D%0A' ) 
-        
-        body = body.join(' ')    
 
     } else { // otherwise is cocktail, // generate this email content
-        // Greeting
-        body.push( 'Hey there!' )
-        body.push( '%0D%0A' )
-        body.push( '%0D%0A' )
-        body.push( 'I found this drink which I thought you might enjoy, the' )
-
-        // get just the cocktail name
+              // get just the cocktail name
         var titleBody = title
                         .replace( 'drink of the day: ', '' )
         // capitalize the first letter
@@ -580,20 +597,31 @@ function emailGen( addr ) {
                                 )
                 body.push( '%0D%0A' )
             })
+    } 
 
-        body.push( '%0D%0A' )    
-        body.push( 'Enjoy!' )
-        body.push( '%0D%0A' ) 
-        
-        body = body.join(' ')  
-    }    
+    var triviaDate = $( '#trivia-date' )
+        .text()
+        .replace( 'On ', '');
+    var triviaText = $( '#trivia-text' )
+        .text();
+    
+    body.push( '%0D%0A' )    
+    body.push( `Finally, here is a random factoid from ${triviaDate} to add to your trivia knowledge!` )
+    body.push( '%0D%0A' ) 
+    body.push( `- ${triviaText}` ) 
+    body.push( '%0D%0A' )  
+    body.push( '%0D%0A' )   
+    body.push( 'Enjoy!' )
+    body.push( '%0D%0A' ) 
+    
+    body = body.join(' ')    
 
         // console.log( desc)
 
 
 
     // email to:
-    var email = addr;
+    var email = data.email;
     var subject = `Check out this ${title}!`;
     var emailBody = body;
     window.location = 'mailto:' + email + '?subject=' + subject + '&body=' +   emailBody;
@@ -705,24 +733,28 @@ function displayEvents(){
 
    // if there are stored events, display
     if(storedEvents.length){
-            // TBD once I have a time difference function
-        // var sortEvents = storedEvents.sort(({date:a}, {date:b}) => b-a);
+            // run updated date comparison
+        dateCompare(storedEvents)
 
-        for (var i = 0; i < storedEvents.length; i++){
-            var date = new Date(storedEvents[i].date)
+
+            // TBD once I have a time difference function
+        var sortEvents = storedEvents.sort(({diff:a}, {diff:b}) => a-b);
+
+        for (var i = 0; i < sortEvents.length; i++){
+            var date = new Date(sortEvents[i].date)
             date = date.toLocaleDateString()
 
                 // event content
             var eventName = $( '<span>' )
-                .text(storedEvents[i].name)
+                .text(sortEvents[i].name)
             var eventEmail = $( '<span>' )
-                .text(storedEvents[i].email)
+                .text(sortEvents[i].email)
             var eventNote = $( '<span>' )
-                .text(storedEvents[i].note)
+                .text(sortEvents[i].note)
             var eventDate = $( '<span>' )
                 .text(date)
             var eventRecurring = $( '<span>' )
-                .text(storedEvents[i].recurring)
+                .text(sortEvents[i].recurring)
             var container = $( '<div>' )
                 .append( eventName )
                 .append( eventEmail )
@@ -777,3 +809,39 @@ $( '#settings-modal' ).click( '.event-del', function(event){
     }
 
 })
+
+// compare dates to current (for local use only, does not need to be stored)
+function dateCompare(data){
+        // get current date
+    var now = Date.now()
+        // compare each time and add/update diff object property
+    for(var i = 0; i < data.length; i++) {
+            // negative number of days are in the past
+        data[i].diff = (data[i].date-now)/86400000
+    }
+        // check for unsent emails
+    triggeredEmail(data)  
+}
+
+// generate email based on date past
+function triggeredEmail(data){
+        // filter for events with <=0 "diff" times
+    var sendEvent = data.filter(x => x.diff <= 0);
+    
+    for(var i = 0; i < sendEvent.length; i++){
+        var entry = sendEvent[i]
+        var response = askToEmail(entry)
+        if( response ){
+            emailGen(entry)
+        }
+    }
+
+
+    console.log(sendEvent)
+}
+
+// ask user if they want to send an email
+function askToEmail(data) {
+    var queryUser = confirm(`do you want to email ${data.name}`)
+    return queryUser
+}
