@@ -652,14 +652,17 @@ $('#event-form').submit(function(event){
 
 // set event storage
 function storeEvent(data) {
+        // collect data from serialized array
     var name = data.find(x => x.name === 'contact-name');
     var email = data.find(x => x.name === 'contact-email');
     var note = data.find(x => x.name === 'contact-content');
     var date = data.find(x => x.name === 'contact-date');
-
+        // change date string to actual datevalue
+    date.value = Date.parse(date.value)
+        // if recurring date is not checked, set as false
     var recurring = data.find(x => x.name === 'event-recurring');
     recurring == undefined ? recurring = {value:false} : recurring = {value:true}
-
+        // create storage item
     var storageItem = {
         name: name.value,
         email: email.value,
@@ -691,7 +694,7 @@ function getEvents(){
         // set initial array
         storedEvents = []
         // if storage key exists, set variable as parse data
-    if( JSON.parse( localStorage.getItem( 'drinklet-history') ) ) {
+    if( JSON.parse( localStorage.getItem( 'drinkspo-events') ) ) {
         storedEvents = JSON.parse( localStorage.getItem( 'drinkspo-events') )
     }
         // run to-be-created time difference function which will look at now vs the stored date and give a difference (positive or negative)
@@ -699,44 +702,51 @@ function getEvents(){
 
 // display events in settings list
 function displayEvents(){
-        // TBD once I have a time difference function
-    // var sortEvents = storedEvents.sort(({date:a}, {date:b}) => b-a);
 
-    for (var i = 0; i < storedEvents.length; i++){
-            // event content
-        var eventName = $( '<span>' )
-            .text(storedEvents[i].name)
-        var eventEmail = $( '<span>' )
-            .text(storedEvents[i].email)
-        var eventNote = $( '<span>' )
-            .text(storedEvents[i].note)
-        var eventDate = $( '<span>' )
-            .text(storedEvents[i].date)
-        var eventRecurring = $( '<span>' )
-            .text(storedEvents[i].recurring)
-        var container = $( '<div>' )
-            .append( eventName )
-            .append( eventEmail )
-            .append( eventNote )
-            .append( eventDate )
-            .append( eventRecurring )
+   // if there are stored events, display
+    if(storedEvents.length){
+            // TBD once I have a time difference function
+        // var sortEvents = storedEvents.sort(({date:a}, {date:b}) => b-a);
 
+        for (var i = 0; i < storedEvents.length; i++){
+            var date = new Date(storedEvents[i].date)
+            date = date.toLocaleDateString()
 
-            // delete button
-        var del = $( '<span>' )
-            .addClass( 'event-del' )
-            .html('&times;')
-        var delDiv = $( '<div>' )
-            .append( del )
+                // event content
+            var eventName = $( '<span>' )
+                .text(storedEvents[i].name)
+            var eventEmail = $( '<span>' )
+                .text(storedEvents[i].email)
+            var eventNote = $( '<span>' )
+                .text(storedEvents[i].note)
+            var eventDate = $( '<span>' )
+                .text(date)
+            var eventRecurring = $( '<span>' )
+                .text(storedEvents[i].recurring)
+            var container = $( '<div>' )
+                .append( eventName )
+                .append( eventEmail )
+                .append( eventNote )
+                .append( eventDate )
+                .append( eventRecurring )
 
-        var line = $( '<li>' )
-            .attr( 'id', i)
-            .addClass( 'event-item' )
-            .append(container)
-            .append( delDiv )
+                // delete button
+            var del = $( '<span>' )
+                .addClass( 'event-del' )
+                .html('&times;')
+            var delDiv = $( '<div>' )
+                .addClass( '.delete' )
+                .attr( 'id', i )
+                .append( del )
 
-        $('#event-list')
-            .append( line )      
+            var line = $( '<li>' )
+                .addClass( 'event-item' )
+                .append(container)
+                .append( delDiv )
+
+            $('#event-list')
+                .append( line )      
+        }
     }
 }
 
@@ -744,14 +754,26 @@ function displayEvents(){
 $( '#settings-modal' ).click( '.event-del', function(event){
         // get id of line to target within storage array
     var target = $(event.target)
-            .closest( 'li' )
+            .closest( 'div' )
             .attr( 'id' )
+    
+    console.log( target )
+
+    if(target){
         // splice out id
-    storedEvents.splice(target,1);
-        // reset display
-    $('#event-list')
-        .html( '' )
-        // run display function
-    displayEvents()
+        storedEvents.splice(target,1);
+
+            // stringify
+        var string = JSON.stringify( storedEvents )
+            // set to localStorage
+        localStorage.setItem( 'drinkspo-events', string )
+
+            // reset display
+        $('#event-list')
+            .html( '' )
+            
+            // run display function
+        displayEvents()
+    }
 
 })
