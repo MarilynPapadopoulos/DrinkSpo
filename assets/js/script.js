@@ -598,14 +598,16 @@ function emailGen( addr ) {
     window.location = 'mailto:' + email + '?subject=' + subject + '&body=' +   emailBody;
 }
 
-//$('#of-age').on('click', function(e) {
-//    e.preventDefault;
-    $(document).ready(function () {
-        $(".modal").modal();
-        // $('#modal1').modal('open');
- 
+// on load, set modal class as modals
+$(document).ready(function () {
+    $(".modal").modal();
+})
 
-    //getStorage(underage);
+// click on settings button
+$('#settings').click(function(){
+    $('#settings-modal').modal('open');
+
+     //getStorage(underage);
    
     var drink_userPref = { 
         underage: false,  
@@ -624,15 +626,9 @@ function emailGen( addr ) {
         localStorage.setItem('underage', drink_userPref.underage);
     });
     
-
     //var drink_userPrefToString =JSON.stringify(drink_userPref);
-    //localStorage.setItem("underage", drink_userPrefToString);
-
- 
-    
-    });
-    
-//})
+    //localStorage.setItem("underage", drink_userPrefToString);   
+});
 
 
 // click on new calendar event button
@@ -684,6 +680,7 @@ function storeEvent(data) {
         .modal('close')
 }
 
+// get events from storage
 function getEvents(){
         // set initial array
         storedEvents = []

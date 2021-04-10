@@ -31,28 +31,7 @@
                             <div id="calendar" class="col calendar">New Calendar Event</div>
                             <div id="current-date" class="col title-text center-align"><h3>Date</h3></div>
                             <!-- <div id="menu" class="col menu">Menu</div> -->
-
-                            <div id="settings" class= "col settings">Settings
-                                
-                                
-                                <!-- Modal Trigger
-                                <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
-                                     -->
-                                <!-- Modal Structure -->
-                                <div id="modal1" class="modal">
-                                    <div class="modal-content">
-                                    <h4>Modal Header</h4>
-                                    <p> <ul id="event-list"></ul></p>
-                                    </div>
-                                    <div class="modal-footer">
-                                    <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="btn-yes">Yes</a>
-                                    <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="btn-no">No</a>
-                                    </div>
-                                </div>
-
-                            </div> 
-
-
+                            <div id="settings" class= "col settings">Settings</div> 
                         </div>             
                     </div>
                 </div>
@@ -107,7 +86,19 @@
         </div>
     </div>
 
-    <!-- Modal Structure -->
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+        <h4>Settings Modal</h4>
+        <p> <ul id="event-list"></ul></p>
+        </div>
+        <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="btn-yes">Yes</a>
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="btn-no">No</a>
+        </div>
+    </div>
+
+    <!-- New Event Modal -->
     <div id="calendar-modal" class="modal">
         <div class="modal-header">
             <h4>New Calendar Event</h4>
@@ -134,9 +125,6 @@
                 </div>
 
             </div>
-            <ul id="event-list">
-                <li>Test</li>
-            </ul>
         </div>
     </div>
 
