@@ -12,6 +12,17 @@ getEvents()
 // display events
 // is at the end of each "display..." function so that the API content exists already to generate emails
 
+// set initial settings object
+var drink_userPref = {}
+
+// on load, set modal class as modals and look for settings
+$(document).ready(function () {
+        // create modals
+    $(".modal").modal();
+         // get settings
+    getSettings()
+})
+
 // run historical factoid function on pageload
 getNow();
 
@@ -627,37 +638,181 @@ function emailGen( addr ) {
     window.location = 'mailto:' + email + '?subject=' + subject + '&body=' +   emailBody;
 }
 
-// on load, set modal class as modals
-$(document).ready(function () {
-    $(".modal").modal();
-})
-
 // click on settings button
 $('#settings').click(function(){
+        // get settings
+    getSettings()
+        // map settings to DOM
+        console.log(drink_userPref)
+
+        // map drink settings
+    if (drink_userPref.displayCocktail){
+        $( '#settings-cocktail' )
+            .prop('checked',true)
+    }
+    if (drink_userPref.displayBeer){
+        $( '#settings-beer' )
+            .prop('checked',true)
+    }
+    if (drink_userPref.displayNonAlc){
+        $( '#settings-non' )
+            .prop('checked',true)
+    }
+    
+        // overrides for under/over age defaults
+    if(!drink_userPref.underage){
+        $( '#settings-underage' )
+            .prop('checked',false)
+        $( '#set-cocktail' )
+            .hide()
+        $( '#settings-cocktail' )
+            .prop('checked',false)
+        $( '#set-beer' )
+            .hide()
+        $( '#settings-beer' )
+            .prop('checked',false)
+        $( '#settings-non' )
+            .prop('checked',true)
+            .prop('disabled',true)
+    } else if (drink_userPref.underage){
+        $( '#settings-underage' )
+            .prop('checked',true)
+        $( '#set-cocktail' )
+            .show()
+        $( '#set-beer' )
+            .show()
+        $( '#settings-beer' )
+        $( '#settings-non' )
+            .prop('disabled',false)
+    }
+
+    if (drink_userPref.factsEvents){
+        $( '#settings-facts' )
+            .prop('checked',true)
+    }
+    if (drink_userPref.factsBirthdays){
+        $( '#settings-births' )
+            .prop('checked',true)
+    }
+    if (drink_userPref.factsDeaths){
+        $( '#settings-deaths' )
+            .prop('checked',true)
+    }
+        // open modal
     $('#settings-modal').modal('open');
 
-     //getStorage(underage);
-   
-    var drink_userPref = { 
-        underage: false,  
-        displayCocktail: true,   
-        displayBeer: true,   
-        factsBirthdays: false,   
-        factsDeaths: false,   
-        factsEvents: true 
-    }
-  
-    $('#btn-no').click(function() {
-        drink_userPref.underage = true;
-        console.log("clicked no/true", drink_userPref.underage);
-        getNonAlcList();
-
-        localStorage.setItem('underage', drink_userPref.underage);
-    });
-    
-    //var drink_userPrefToString =JSON.stringify(drink_userPref);
-    //localStorage.setItem("underage", drink_userPrefToString);   
 });
+
+// check for initial user settings
+function getSettings() {
+     // set initial array
+     drink_userPref = {}
+     // if storage key exists, set variable as parse data
+     if( JSON.parse( localStorage.getItem( 'drinkspo-settings') ) ) {
+        drink_userPref = JSON.parse( localStorage.getItem( 'drinkspo-settings') )
+     } else {
+            // open settings modal
+        $('#settings-modal').modal('open');
+            // stop email trigger from opening
+        emailModal = 1
+            // initial settings
+        $( '#set-cocktail' )
+            .hide()
+        $( '#settings-cocktail' )
+            .prop('checked',false)
+        $( '#set-beer' )
+            .hide()
+        $( '#settings-beer' )
+            .prop('checked',false)
+        $( '#settings-non' )
+            .prop('checked',true)
+            .prop('disabled',true)
+        $( '#settings-facts' )
+            .prop('checked',true)
+        $( '#settings-births' )
+            .prop('checked',false)
+        $( '#settings-deaths' )
+            .prop('checked',false)
+     }
+     return drink_userPref
+}
+
+// listen for checkbox change
+$('input[type=checkbox]').change( function(){
+        var id = $(this)
+            .attr('id')
+        var status = $(this.checked)[0]
+        if(!status){ status = false }
+
+        if( id === 'settings-underage' && status === true) {
+            console.log('check')
+            $( '#set-cocktail' )
+                .show()
+            $( '#set-beer' )
+                .show()
+            $( '#settings-non' )
+                .prop('disabled',false)
+        } else if ( id === 'settings-underage' && status === false) {
+            $( '#set-cocktail' )
+                .hide()
+            $( '#settings-cocktail' )
+                .prop('checked',false)
+            $( '#set-beer' )
+                .hide()
+            $( '#settings-beer' )
+                .prop('checked',false)
+            $( '#settings-non' )
+                .prop('checked',true)
+                .prop('disabled',true)
+        } else {
+            return
+        }
+});
+
+// listen for form submit
+$('#settings-form').submit(function(event){
+    event.preventDefault()
+    var data = $(this).serializeArray()
+    storeSettings(data)
+    $('#settings-modal').modal('close');
+    $('#settings-form').trigger('reset')
+})
+
+// store settings
+function storeSettings( data ) {
+        // define settings variable, and set to true/false 
+    var underage=           data.find(x => x.name === 'settings-underage')
+    underage == undefined ? underage = false : underage = true
+    var displayCocktail=    data.find(x => x.name === 'settings-cocktail')   
+    displayCocktail == undefined ? displayCocktail = false : displayCocktail = true
+    var displayBeer=        data.find(x => x.name === 'settings-beer') 
+    displayBeer == undefined ? displayBeer = false : displayBeer = true  
+    var displayNonAlc=      data.find(x => x.name === 'settings-non')     
+    displayNonAlc == undefined ? displayNonAlc = false : displayNonAlc = true  
+    var factsEvents=        data.find(x => x.name === 'settings-facts')  
+    factsEvents == undefined ? factsEvents = false : factsEvents = true 
+    var factsBirthdays=     data.find(x => x.name === 'settings-births')    
+    factsBirthdays == undefined ? factsBirthdays = false : factsBirthdays = true  
+    var factsDeaths=        data.find(x => x.name === 'settings-deaths') 
+    factsDeaths == undefined ? factsDeaths = false : factsDeaths = true 
+
+        // build settings obj
+    drink_userPref = { 
+        underage:           underage,  
+        displayCocktail:    displayCocktail,    
+        displayBeer:        displayBeer,   
+        displayNonAlc:      displayNonAlc,     
+        factsEvents:        factsEvents,  
+        factsBirthdays:     factsBirthdays,    
+        factsDeaths:        factsDeaths,    
+    }
+
+    // stringify
+    var string = JSON.stringify( drink_userPref )
+        // set to localStorage
+    localStorage.setItem( 'drinkspo-settings', string )
+}
+
 
 
 // click on new calendar event button
@@ -804,8 +959,6 @@ $( '#settings-modal' ).click( '.event-del', function(event){
             .closest( 'div' )
             .attr( 'id' )
     
-    console.log( target )
-
     if(target){
         // splice out id
         storedEvents.splice(target,1);
