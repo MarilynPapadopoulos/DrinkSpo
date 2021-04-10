@@ -777,3 +777,35 @@ $( '#settings-modal' ).click( '.event-del', function(event){
     }
 
 })
+
+$('#ing-search-btn').on('click', function(event){
+    event.preventDefault();
+    console.log("Entered By Ingredient Function");
+    var ingSearch = $('#ing-search').val();
+    console.log(ingSearch);
+    //url already set by DB, set as variable
+    var nonIngUrl = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + ingSearch;
+    //fetch it
+    fetch(nonIngUrl).then(function(response) {
+
+        //if comes back ok
+        if (response.ok) {
+        response.json().then(function(data) {
+            console.log(data);
+            // put into object to pull from later
+            nonAlcRandom ( data );
+        });
+        // if fail
+        } else {
+            $("#display-text").html("Oh no!  Your search wasn't able to display a result. Please try again");
+            error()
+        }
+    })
+
+    // catch
+    .catch( function (error) {
+        error()
+        $("#display-text").html("Oh no!  Your search wasn't able to display a result. Please try again");
+    })
+
+});
