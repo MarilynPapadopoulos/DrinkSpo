@@ -5,6 +5,13 @@ getStorage()
 // display history list
 displayHistory()
 
+// set initial event array
+var storedEvents = []
+// get storage of events
+getEvents()
+// display events
+displayEvents()
+
 // get current date
 function getNow() {
     // get current date
@@ -592,14 +599,16 @@ function emailGen( addr ) {
     window.location = 'mailto:' + email + '?subject=' + subject + '&body=' +   emailBody;
 }
 
-//$('#of-age').on('click', function(e) {
-//    e.preventDefault;
-    $(document).ready(function () {
-        $(".modal").modal();
-        $('#modal1').modal('open');
- 
+// on load, set modal class as modals
+$(document).ready(function () {
+    $(".modal").modal();
+})
 
-    //getStorage(underage);
+// click on settings button
+$('#settings').click(function(){
+    $('#settings-modal').modal('open');
+
+     //getStorage(underage);
    
     var drink_userPref = { 
         underage: false,  
@@ -618,12 +627,131 @@ function emailGen( addr ) {
         localStorage.setItem('underage', drink_userPref.underage);
     });
     
-
     //var drink_userPrefToString =JSON.stringify(drink_userPref);
-    //localStorage.setItem("underage", drink_userPrefToString);
+    //localStorage.setItem("underage", drink_userPrefToString);   
+});
 
- 
-    
-    });
-    
-//})
+
+// click on new calendar event button
+$('#calendar').click(function(){
+    //open modal
+    $('#calendar-modal')
+        .modal('open')
+    // generate date picker
+    $( "#contact-date" ).datepicker({
+        showButtonPanel: true
+      });
+})
+
+// listen for form submit
+$('#event-form').submit(function(event){
+    event.preventDefault()
+    var data = $(this).serializeArray()
+    storeEvent(data)
+})
+
+// set event storage
+function storeEvent(data) {
+    var name = data.find(x => x.name === 'contact-name');
+    var email = data.find(x => x.name === 'contact-email');
+    var note = data.find(x => x.name === 'contact-content');
+    var date = data.find(x => x.name === 'contact-date');
+
+    var recurring = data.find(x => x.name === 'event-recurring');
+    recurring == undefined ? recurring = {value:false} : recurring = {value:true}
+
+    var storageItem = {
+        name: name.value,
+        email: email.value,
+        note: note.value,
+        date: date.value,
+        recurring: recurring.value,
+        send: false,
+    }
+        // add to array
+    storedEvents.push(storageItem)
+        // stringify
+    var string = JSON.stringify( storedEvents )
+        // set to localStorage
+    localStorage.setItem( 'drinkspo-events', string )
+        // reset form
+    $('#event-form').trigger('reset')
+        // close modal
+    $('#calendar-modal')
+        .modal('close')
+        // reset display
+    $('#event-list')
+        .html( '' )
+        // run display function
+    displayEvents()
+}
+
+// get events from storage
+function getEvents(){
+        // set initial array
+        storedEvents = []
+        // if storage key exists, set variable as parse data
+    if( JSON.parse( localStorage.getItem( 'drinklet-history') ) ) {
+        storedEvents = JSON.parse( localStorage.getItem( 'drinkspo-events') )
+    }
+        // run to-be-created time difference function which will look at now vs the stored date and give a difference (positive or negative)
+}
+
+// display events in settings list
+function displayEvents(){
+        // TBD once I have a time difference function
+    // var sortEvents = storedEvents.sort(({date:a}, {date:b}) => b-a);
+
+    for (var i = 0; i < storedEvents.length; i++){
+            // event content
+        var eventName = $( '<span>' )
+            .text(storedEvents[i].name)
+        var eventEmail = $( '<span>' )
+            .text(storedEvents[i].email)
+        var eventNote = $( '<span>' )
+            .text(storedEvents[i].note)
+        var eventDate = $( '<span>' )
+            .text(storedEvents[i].date)
+        var eventRecurring = $( '<span>' )
+            .text(storedEvents[i].recurring)
+        var container = $( '<div>' )
+            .append( eventName )
+            .append( eventEmail )
+            .append( eventNote )
+            .append( eventDate )
+            .append( eventRecurring )
+
+
+            // delete button
+        var del = $( '<span>' )
+            .addClass( 'event-del' )
+            .html('&times;')
+        var delDiv = $( '<div>' )
+            .append( del )
+
+        var line = $( '<li>' )
+            .attr( 'id', i)
+            .addClass( 'event-item' )
+            .append(container)
+            .append( delDiv )
+
+        $('#event-list')
+            .append( line )      
+    }
+}
+
+// delete event items
+$( '#settings-modal' ).click( '.event-del', function(event){
+        // get id of line to target within storage array
+    var target = $(event.target)
+            .closest( 'li' )
+            .attr( 'id' )
+        // splice out id
+    storedEvents.splice(target,1);
+        // reset display
+    $('#event-list')
+        .html( '' )
+        // run display function
+    displayEvents()
+
+})

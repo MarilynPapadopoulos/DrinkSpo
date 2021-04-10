@@ -1,9 +1,9 @@
 /* initial page settings */
 * {
   box-sizing: border-box;
-  /* padding: 0;
+  padding: 0;
   margin: 0;
-  border: 1px solid black; */
+  border: 1px solid black;
   color: azure;
 }
 
@@ -13,7 +13,7 @@
   /* background-color: #cccccc; */
 
   /* Set a specific height */
-  min-height: 500px; 
+  min-height: 500px;
 
   /* Create the parallax scrolling effect */
   background-attachment: fixed;
@@ -98,7 +98,8 @@ h3 {
   padding-bottom: 20px;
 }
 
-#results-display, #controls {
+#results-display,
+#controls {
   border-radius: 15px;
   background-color: rgb(19, 62, 63, 0.8);
 }
@@ -129,7 +130,6 @@ h3 {
   padding-top: 20px;
   border: 2px dotted darkblue;
   font-size: 15px;
-  
 }
 
 #email-div {
@@ -164,8 +164,26 @@ h3 {
   padding-top: 15px;
 }
 
-.modal{
-  color: black !important;
+.modal * {
+  color: black;
+  padding: 5px;
+}
+
+/* had to set this because materialize gets rid of check boxes for some reason???? */
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+  opacity: 1;
+  pointer-events: all;
+  position: relative;
+  display: inline-block;
+}
+#check-label {
+  display: inline-block;
+}
+
+.event-item {
+  display: flex;
+  justify-content: space-between;
 }
 
 /* media query to show menu items */
@@ -184,14 +202,9 @@ h3 {
   }
 }
 
-
-
 @media screen and (min-width: 884px) {
   .btn-style {
-    display:flex;
+    display: flex;
     flex-direction: column;
   }
 }
-
-
-
