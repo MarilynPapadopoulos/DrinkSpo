@@ -643,8 +643,6 @@ $('#settings').click(function(){
         // get settings
     getSettings()
         // map settings to DOM
-        console.log(drink_userPref)
-
         // map drink settings
     if (drink_userPref.displayCocktail){
         $( '#settings-cocktail' )
@@ -813,8 +811,6 @@ function storeSettings( data ) {
     localStorage.setItem( 'drinkspo-settings', string )
 }
 
-
-
 // click on new calendar event button
 $('#calendar').click(function(){
     //open modal
@@ -937,8 +933,8 @@ function displayEvents(){
                 .addClass( 'event-del' )
                 .html('&times;')
             var delDiv = $( '<div>' )
-                .addClass( '.delete' )
-                .attr( 'id', i )
+                .addClass( 'delete' )
+                .attr( 'idx', i )
                 .append( del )
 
             var line = $( '<li>' )
@@ -956,11 +952,11 @@ function displayEvents(){
 $( '#settings-modal' ).click( '.event-del', function(event){
         // get id of line to target within storage array
     var target = $(event.target)
-            .closest( 'div' )
-            .attr( 'id' )
-    
+            .closest( '.delete' )
+            .attr( 'idx' )
+     
     if(target){
-        // splice out id
+            // splice out id
         storedEvents.splice(target,1);
 
             // stringify
