@@ -12,22 +12,27 @@ getEvents()
 // display events
 // is at the end of each "display..." function so that the API content exists already to generate emails
 
+// run historical factoid function on pageload
+getNow();
+
 // get current date
 function getNow() {
-    // get current date
+        // get current date
     var today = new Date();
-    // extract month
+        // extract month
     var month = today.getMonth() + 1;
-    // extract day
+        // extract day
     var day = today.getDate();
-    // date object
+        // date object
     var date = {
         month: month,
         day: day
         };
     $("#current-date").html("Date: " + today.toDateString());
-    // send date to get factoid API call        
+        // send date to get factoid AP  I call        
     getFactoid( date );
+        // on page load, run random function
+    randomLoad()
 };
 
 // get factoid API call
@@ -382,11 +387,7 @@ $( "#non-alc-btn" ).click(function() {
     getNonAlcList();
 });
 
-
-// run historical factoid function
-getNow();
-
-// run randomizer for page load
+// run randomizer for through the getNow() function
 function randomLoad() {
     //list of random functions
     var types = [
@@ -399,8 +400,7 @@ function randomLoad() {
     // execute random function
     types[random]()
 }
-// on page load, run random function
-randomLoad()
+
 
 // set storage entry
 function setStorage( data, query ) {
@@ -428,7 +428,6 @@ function setStorage( data, query ) {
      // post display
     displayHistory()
 };
-
 
 // get storage entries
 function getStorage() {
@@ -473,6 +472,7 @@ $( '#history-list').on( 'click', 'li' , function() {
     eval(functionToRun)( dataObject )
 })
 
+// handle missing images from API
 function missingImage () {
    var ifImage = $( '#display-image' ).find( 'img' ).attr( 'src' )
  
@@ -718,6 +718,8 @@ function storeEvent(data) {
         // reset display
     $('#event-list')
         .html( '' )
+        // mark email modal as already having been opened so it doesnt load right away if event is past already
+    emailModal = 1
         // run display function
     displayEvents()
 }
@@ -735,14 +737,14 @@ function getEvents(){
 
 // display events in settings list
 function displayEvents(){
+    //get updated event status on load
+    getEvents()
 
    // if there are stored events, display
     if(storedEvents.length){
             // run updated date comparison
         dateCompare(storedEvents)
-
-
-            // TBD once I have a time difference function
+            // sort event
         var sortEvents = storedEvents.sort(({diff:a}, {diff:b}) => a-b);
 
         for (var i = 0; i < sortEvents.length; i++){
@@ -750,25 +752,30 @@ function displayEvents(){
             date = date.toLocaleDateString()
 
                 // event content
-            var eventName = $( '<span>' )
+                var eventName = $( '<span>' )
                 .text(sortEvents[i].name)
             var eventEmail = $( '<span>' )
-                .text(sortEvents[i].email)
-            var eventNote = $( '<span>' )
-                .text(sortEvents[i].note)
+                .text(` ( ${sortEvents[i].email} ) `)
             var eventDate = $( '<span>' )
-                .text(date)
-            var eventRecurring = $( '<span>' )
-                .text(`recurring: ${sortEvents[i].recurring}`)
-            var eventSent = $( '<span>' )
-                .text(`sent: ${sortEvents[i].send}`)
+                .text(`${date} - `)
             var container = $( '<div>' )
+                .append( eventDate )
                 .append( eventName )
                 .append( eventEmail )
-                .append( eventNote )
-                .append( eventDate )
-                .append( eventRecurring )
-                .append( eventSent )
+
+            var recurring = sortEvents[i].recurring
+                if(recurring) {
+                    var eventRecurring = $( '<span>' )
+                        .html(`<i class="fas fa-sync-alt"></i><i class="far fa-calendar-alt"></i>`)
+                    container.append( eventRecurring )
+                }     
+
+            var sent = sortEvents[i].send
+                if(sent) {
+                    var eventSent = $( '<span>' )
+                        .html(`<i class="fas fa-check"></i>`)
+                    container.append( eventSent )
+                }    
 
                 // delete button
             var del = $( '<span>' )
@@ -827,8 +834,26 @@ function dateCompare(data){
             // negative number of days are in the past
         data[i].diff = (data[i].date-now)/86400000
     }
+    recurringEvent(data)
+
         // check for unsent emails
     triggeredEmail(data)  
+}
+
+// review recurring events
+function recurringEvent(data){
+    for( var i = 0; i < data.length; i++){
+        if(data[i].diff < -350 && data[i].recurring == true) {
+            data[i].date = data[i].date + 31536000000
+            data[i].send = false
+        }
+    }
+    // stringify
+    var string = JSON.stringify( data )
+        // set to localStorage
+    localStorage.setItem( 'drinkspo-events', string )
+
+    // return data
 }
 
 // generate email based on date past
@@ -839,10 +864,11 @@ function triggeredEmail(data){
         // init email loop
     askToEmail(sendEvent)
 }
-
+// set counter on email modal open so it only opens once on page load
+var emailModal = 0
 // ask user if they want to send an email
 function askToEmail(data) {
-    if(data.length){
+    if(data.length && emailModal === 0){
             // create text string
         var text = $( '<h6>' )
             .text( `You have an un-sent email events from your calendar. Click and entry to send email`)
@@ -859,19 +885,20 @@ function askToEmail(data) {
             var eventName = $( '<span>' )
                 .text(sortEvents[i].name)
             var eventEmail = $( '<span>' )
-                .text(sortEvents[i].email)
-            var eventNote = $( '<span>' )
-                .text(sortEvents[i].note)
+                .text(` ( ${sortEvents[i].email} ) `)
             var eventDate = $( '<span>' )
-                .text(date)
-            var eventRecurring = $( '<span>' )
-                .text(`recurring: ${sortEvents[i].recurring}`)
+                .text(`${date} - `)
             var container = $( '<div>' )
+                .append( eventDate )
                 .append( eventName )
                 .append( eventEmail )
-                .append( eventNote )
-                .append( eventDate )
-                .append( eventRecurring )
+
+            var recurring = sortEvents[i].recurring
+            if(recurring) {
+                var eventRecurring = $( '<span>' )
+                    .html(`<i class="fas fa-sync-alt"></i><i class="far fa-calendar-alt"></i>`)
+                container.append( eventRecurring )
+            }     
 
             var line = $( '<li>' )
                 .addClass( 'event-item' )
@@ -890,6 +917,8 @@ function askToEmail(data) {
             // open email modal
         $('#email-modal')
             .modal('open')
+            // mark email modal as already having been opened
+        emailModal = 1   
             // init response variable
         $('#email-modal').click('li', function(event){
             var target = $(event.target)
@@ -908,7 +937,7 @@ function askToEmail(data) {
             emailGen( sortEvents[target[0].id] )
                 // add tag to list item to show it was sent
             var sendTag = $( '<span>' )
-                .text( ' -sent' )
+                .html(`<i class="fas fa-check"></i>`)
                 .addClass( 'email-sent' );
             target.append(sendTag)
         })
