@@ -917,9 +917,13 @@ function displayEvents(){
             var recurring = sortEvents[i].recurring
                 if(recurring) {
                     var eventRecurring = $( '<span>' )
-                        .html(`<i class="fas fa-sync-alt"></i><i class="far fa-calendar-alt"></i>`)
+                        .html(`<i class="fas fa-sync-alt"></i><i class="fas fa-calendar-alt"></i>`)
                     container.append( eventRecurring )
-                }     
+                } else {
+                    var eventRecurring = $( '<span>' )
+                        .html(`<i class="fas fa-calendar-day"></i>`)
+                    container.append( eventRecurring )
+                }   
 
             var sent = sortEvents[i].send
                 if(sent) {
@@ -1045,7 +1049,11 @@ function askToEmail(data) {
             var recurring = sortEvents[i].recurring
             if(recurring) {
                 var eventRecurring = $( '<span>' )
-                    .html(`<i class="fas fa-sync-alt"></i><i class="far fa-calendar-alt"></i>`)
+                    .html(`<i class="fas fa-sync-alt"></i><i class="fas fa-calendar-alt"></i>`)
+                container.append( eventRecurring )
+            } else {
+                var eventRecurring = $( '<span>' )
+                    .html(`<i class="fas fa-calendar-day"></i>`)
                 container.append( eventRecurring )
             }     
 
