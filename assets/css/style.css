@@ -1,9 +1,9 @@
 /* initial page settings */
 * {
   box-sizing: border-box;
-  /* padding: 0;
+  padding: 0;
   margin: 0;
-  border: 1px solid black; */
+  /* border: 1px solid black; */
   color: azure;
 }
 
@@ -13,7 +13,7 @@
   /* background-color: #cccccc; */
 
   /* Set a specific height */
-  min-height: 500px; 
+  min-height: 500px;
 
   /* Create the parallax scrolling effect */
   background-attachment: fixed;
@@ -42,13 +42,46 @@
 }
 
 #current-date {
-  font-size: 25px;
-  padding: 20px;
+  font-size: 20px;
+  text-decoration: none;
 }
 
+#calendar,
+#current-date,
+#settings {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+
+#settings {
+  display: inline-flex;
+  flex-direction: row-reverse;
+}
+
+#current-date {
+  justify-content: center;
+}
+
+#calender {
+  font-size: 100px;
+}
+
+#calendar img {
+  height: 25px;
+  width: auto;
+  padding: 5px;
+}
 #controls {
+  font-size: 17px;
   margin-top: 35px;
 }
+#calendar,
+#current-date {
+  border-bottom: 1px dotted grey;
+}
+
 #page-title img {
   width: auto;
   height: 20vw;
@@ -62,7 +95,7 @@ h3 {
   display: flex;
   justify-content: center;
   padding: 10px;
-  padding-top: 25px;
+  /* padding-top: 25px; */
   font-size: 25px;
   word-wrap: normal;
 }
@@ -75,32 +108,50 @@ h3 {
   border-radius: 20px;
 }
 
+#history {
+  display: none;
+}
+
 #history h3 {
   display: flex;
   justify-content: center;
 }
 #history-list {
-  padding-left: 20px;
-  /* margin: auto; */
   flex-wrap: wrap;
   border: 1px dotted grey;
   border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+#history-list li {
+  padding: 0.25em 1.5em;
+}
+
+#history-list li:not(:last-of-type) {
+  border-bottom: 1px dotted grey;
 }
 
 #history span {
   padding-bottom: 4px;
 }
+
 #history-list span:hover {
   color: rgb(240, 77, 213);
 }
 
-#buttons-div {
-  padding-bottom: 20px;
+#settings:hover,
+#calendar:hover {
+  color: rgb(240, 77, 213);
 }
 
-#results-display, #controls {
+#results-display,
+#controls {
   border-radius: 15px;
   background-color: rgb(19, 62, 63, 0.8);
+}
+
+#display-title {
+  padding-bottom: 0;
 }
 
 /* image size max */
@@ -123,26 +174,26 @@ h3 {
 #trivia-title {
   background-color: rgb(37, 39, 84, 0.6);
   border-radius: 15px;
-  border-bottom-right-radius: 0px;
-  border-top-right-radius: 0px;
   padding: 10px;
   padding-top: 20px;
   border: 2px dotted darkblue;
   font-size: 15px;
-  
 }
 
 #email-div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   background-color: rgba(5, 29, 20, 0.8);
   border-radius: 15px;
   font-size: 20px;
-  padding-top: 17px;
+  padding: 17px 0;
 }
 
-#email {
-  border: 1px dotted white;
-  width: 60%;
-  border-radius: 15px;
+#email-div h5 {
+  width: 100%;
+  margin-top: 0.25rem;
+  text-align: center;
 }
 
 #footer-div {
@@ -160,34 +211,183 @@ h3 {
 }
 
 #target {
-  padding-bottom: 15px;
-  padding-top: 15px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#email {
+  width: 90%;
+  border: 1px dotted white;
+  border-radius: 15px;
+  padding: 5px;
+  margin: 8px 0 12px 0;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+#target input[type="submit"] {
+  margin-top: 8px;
+  width: 90%;
+}
+
+.modal * {
+  color: rgb(255, 255, 255);
+  padding: 5px;
+  background-color: rgb(13, 51, 51);
+  /* border-radius: 15px; */
+}
+
+#buttons-div {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: 5px 0;
+}
+
+.btn-style {
+  background-color: rgb(111, 57, 161);
+  width: 75%;
+  border-radius: 8px;
+  padding: 5px;
+  margin: 8px 0;
+}
+
+/* had to set this because materialize gets rid of check boxes for some reason???? */
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+  opacity: 1;
+  pointer-events: all;
+  position: relative;
+  display: inline-block;
+}
+#check-label {
+  display: inline-block;
+}
+
+#event-list,
+#email-content ul,
+#settings-block {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 0.25em 0.75em;
+}
+
+#settings-block > *,
+#settings-block p {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.event-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.5em 0;
+  border-radius: 0.5em;
+}
+
+.delete {
+  padding-top: 0;
+}
+
+.event-del {
+  font-size: 2em;
+  padding: 0 5px;
+}
+
+#event-form input:not(input[type="submit"]),
+#event-form textarea {
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 0.5em;
+}
+
+#event-form input:not(input[type="submit"]) {
+  border-radius: 8px 8px 0 0;
+}
+
+#event-form textarea {
+  border-radius: 8px;
+}
+
+#event-submit {
+  margin-top: 1em;
+  background-color: rgb(111, 57, 161);
+  border-radius: 8px;
+  padding: 2px 8px;
+  flex-wrap: wrap;
+  height: 30px;
+  width: auto;
+}
+
+/* Search container */
+#search-ing-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+  padding-top: 8px;
+  border-bottom: 1px dotted grey;
+}
+
+#ing-search {
+  border: 1px dotted azure;
+  border-radius: 8px;
+  width: 270px;
+  margin-right: 8px;
+  padding: 0 0.5em;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.btn-search {
+  background-color: rgb(111, 57, 161);
+  border-radius: 8px;
+  padding: 2px;
+  flex-wrap: wrap;
+  height: 30px;
+  width: 70px;
+}
+
+#display-image,
+#display-text {
+  padding-top: 10px;
+}
+
+#calendar-button-text {
+  padding-left: 0.25em;
 }
 
 /* media query to show menu items */
-@media screen and (min-width: 576px) {
-  /* .menu {
-    display: none;
-  } */
-  .calendar {
-    display: inline-block;
+@media screen and (min-width: 768px) {
+  #history {
+    display: block;
   }
-  .settings {
-    display: inline-block;
+  #target {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
   }
-  .history {
-    display: inline-block;
+
+  #calendar,
+  #current-date {
+    border-bottom: none;
   }
-}
 
+  #email {
+    width: 50%;
+    margin: 0;
+    margin-right: 10px;
+  }
 
+  #target input[type="submit"] {
+    margin-top: 0;
+    width: 30%;
+    padding: 10px 0;
+  }
 
-@media screen and (min-width: 884px) {
   .btn-style {
-    display:flex;
-    flex-direction: column;
+    width: auto;
+    margin: 0;
   }
 }
-
-
-
