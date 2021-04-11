@@ -264,6 +264,11 @@ h3 {
   height: 30px;
   width: 70px;
 }
+
+#display-image, #display-text {
+  padding-top: 10px;
+}
+
 /* media query to show menu items */
 @media screen and (min-width: 576px) {
   /* .menu {
