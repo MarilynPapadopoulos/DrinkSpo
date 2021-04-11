@@ -3,7 +3,7 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   color: azure;
 }
 
@@ -42,13 +42,42 @@
 }
 
 #current-date {
-  font-size: 25px;
+  font-size: 20px;
   padding: 20px;
+  text-decoration: none;
 }
 
+#calendar, 
+#current-date,
+#settings {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+#settings {
+  display: inline-flex;
+  flex-direction: row-reverse;
+}
+
+#current-date {
+  justify-content: center;
+}
+
+#calender {
+  font-size: 100px;
+}
+
+#calendar img {
+  height: 25px;
+  width: auto;
+  padding: 5px;
+}
 #controls {
+  font-size: 17px;
   margin-top: 35px;
 }
+
 #page-title img {
   width: auto;
   height: 20vw;
@@ -81,6 +110,7 @@ h3 {
 }
 #history-list {
   padding-left: 20px;
+  padding-right: 20px;
   /* margin: auto; */
   flex-wrap: wrap;
   border: 1px dotted grey;
@@ -90,12 +120,13 @@ h3 {
 #history span {
   padding-bottom: 4px;
 }
+
 #history-list span:hover {
   color: rgb(240, 77, 213);
 }
 
-#buttons-div {
-  padding-bottom: 20px;
+#settings:hover, #calendar:hover {
+  color: rgb(240, 77, 213);
 }
 
 #results-display,
@@ -124,8 +155,6 @@ h3 {
 #trivia-title {
   background-color: rgb(37, 39, 84, 0.6);
   border-radius: 15px;
-  border-bottom-right-radius: 0px;
-  border-top-right-radius: 0px;
   padding: 10px;
   padding-top: 20px;
   border: 2px dotted darkblue;
@@ -146,12 +175,15 @@ h3 {
   border: 1px dotted white;
   width: 30vw;
   border-radius: 15px;
+  padding: 5px;
 }
 
-.target {
-  display: inline;
-
+#target {
+  display: flex;
+  align-items: center;
 }
+
+
 #footer-div {
   display: flex;
 }
@@ -172,14 +204,18 @@ h3 {
 }
 
 .modal * {
-  color: black;
+  color: rgb(255, 255, 255);
   padding: 5px;
+  background-color: rgb(13, 51, 51);
+  /* border-radius: 15px; */
 }
+
 #buttons-div {
   display: flex;
-  justify-content: space-evenly;
-
+  justify-content: space-between;
+  /* padding-bottom: 20px; */
 }
+
 .btn-style {
   background-color: rgb(111, 57, 161);
   border-radius: 8px;
@@ -207,10 +243,11 @@ h3 {
 /* Search container */
 #search-ing-container {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   padding:2px;
   padding-top: 8px;
+  border-bottom: 1px dotted grey;
 }
 
 #ing-search {

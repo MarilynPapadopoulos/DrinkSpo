@@ -21,10 +21,11 @@ $(document).ready(function () {
     $(".modal").modal();
          // get settings
     getSettings()
+    // run historical factoid function on pageload
+    getNow();
 })
 
-// run historical factoid function on pageload
-getNow();
+
 
 // get current date
 function getNow() {
