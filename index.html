@@ -29,15 +29,16 @@
                             <img src="./assets/images/logo.png">
                         </div>
                         <div class="row" id ="controls">
-                            <div id="calendar" class="col calendar">
-                            <img src="./assets/images/calendar.png">
-                             New Calendar Event</div>
-                            <div id="current-date" class="col title-text center-align"><h3>Date</h3></div>
-                            <div id="settings" class= "col settings">
+                            <div id="calendar" class="col-sm-12 col-md-auto calendar">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span id="calendar-button-text">New Calendar Event</span>
+                            </div>
+                            <div id="current-date" class="col-sm-12 col-md title-text center-align"><h3>Date</h3></div>
+                            <div id="settings" class= "col-sm-12 col-md-auto settings">
                                     <!-- browse button burger menu button -->
                                     Settings<a role="button" data-toggle="collapse" data-target="#navbarBrowseButton">
                                     <span class="navbar-toggler-icon text-center">
-                                        <i class="fas fa-bars"></i>
+                                    <i class="fas fa-bars"></i>
                                     </span>
                                 </a>
                             </div>
@@ -112,8 +113,8 @@
         <div class="modal-content">
         <h4>Drink Settings</h4>
         <form id="settings-form">
+            <h5>Settings</h5>
             <div id="settings-block">
-                <h5>Settings</h5>
                 <div id="underage-check">
                     <input type="checkbox" id="settings-underage" name="settings-underage" value="true">
                     <p id="check-label">Are you aged 19 or over?</p>
