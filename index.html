@@ -29,10 +29,26 @@
                             <img src="./assets/images/logo.png">
                         </div>
                         <div class="row" id ="controls">
-                            <div id="calendar" class="col calendar">New Calendar Event</div>
+                            <div id="calendar" class="col calendar">
+                            <img src="./assets/images/calendar.png">
+                             New Calendar Event</div>
                             <div id="current-date" class="col title-text center-align"><h3>Date</h3></div>
-                            <!-- <div id="menu" class="col menu">Menu</div> -->
-                            <div id="settings" class= "col settings">Settings</div> 
+                            <div id="settings" class= "col settings">
+                                    <!-- browse button burger menu button -->
+                                    Settings<a role="button" data-toggle="collapse" data-target="#navbarBrowseButton">
+                                    <span class="navbar-toggler-icon text-center">
+                                        <i class="fas fa-bars"></i>
+                                    </span>
+                                </a>
+                            </div>
+
+<!-- browse button collapse content -->
+<div class="collapse navbar-collapse" id="navbarBrowseButton">
+    <a class="btn btnBrowse dropdown-toggle" role="button" data-toggle="dropdown">Browse</a>
+        <div class="dropdown-menu">
+            <a href="#" class="dropdown-item">Games</a>
+            <a href="#" class="dropdown-item">Popular Lists</a>
+                            </div> 
                         </div>             
                     </div>
                 </div>
@@ -94,7 +110,7 @@
     <!-- Settings Modal -->
     <div id="settings-modal" class="modal">
         <div class="modal-content">
-        <h4>Settings Modal</h4>
+        <h4>Drink Settings</h4>
         <form id="settings-form">
             <div id="settings-block">
                 <h5>Settings</h5>

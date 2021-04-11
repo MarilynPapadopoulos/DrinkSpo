@@ -21,10 +21,11 @@ $(document).ready(function () {
     $(".modal").modal();
          // get settings
     getSettings()
+    // run historical factoid function on pageload
+    getNow();
 })
 
-// run historical factoid function on pageload
-getNow();
+
 
 // get current date
 function getNow() {
@@ -399,7 +400,7 @@ function getNonAlcList() {
 
 //Grabs an index number between 0-56 and outputs the corresponding drink id
 function nonAlcRandom ( data ) {
-    var idRandomize = Math.floor(Math.random () * 56)
+    var idRandomize = Math.floor(Math.random () * data.drinks.length)
     var getDrinkId = data.drinks[idRandomize].idDrink;
     //outputs to get all of the non alcaholic drink information to be fetches and parsed
     getNonAlcDrink (getDrinkId);
@@ -1169,17 +1170,18 @@ $('#ing-search-btn').on('click', function(event){
     fetch(nonIngUrl).then(function(response) {
 
         //if comes back ok
-        if (response.ok) {
+        console.log(response);
+        // if (response.ok) {
+            console.log("before response.json")
         response.json().then(function(data) {
             console.log(data);
             // put into object to pull from later
             nonAlcRandom ( data );
-        });
-        // if fail
-        } else {
+        }).catch(function (error) {
             $("#display-text").html("Oh no!  Your search wasn't able to display a result. Please try again");
             error()
-        }
+        })
+        
     })
 
     // catch
