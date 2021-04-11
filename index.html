@@ -95,11 +95,44 @@
     <div id="settings-modal" class="modal">
         <div class="modal-content">
         <h4>Settings Modal</h4>
-        <p> <ul id="event-list"></ul></p>
+        <form id="settings-form">
+            <div id="settings-block">
+                <h5>Settings</h5>
+                <div id="underage-check">
+                    <input type="checkbox" id="settings-underage" name="settings-underage" value="true">
+                    <p id="check-label">Are you aged 19 or over?</p>
+                </div>
+                <div id="set-cocktail">
+                    <input type="checkbox" id="settings-cocktail" name="settings-cocktail" value="true">
+                    <p id="check-label">Do you want to see cocktails?</p>
+                </div>
+                <div id="set-beer">
+                    <input type="checkbox" id="settings-beer" name="settings-beer" value="true">
+                    <p id="check-label">Do you want to see beers?</p>
+                </div>
+                <div id="set-non">
+                    <input type="checkbox" id="settings-non" name="settings-non" value="true">
+                    <p id="check-label">Do you want to see non-alcoholic drinks?</p>
+                </div>
+                <div id="set-facts">
+                    <input type="checkbox" id="settings-facts" name="settings-facts" value="true">
+                    <p id="check-label">Do you want to see "on this day" historical facts?</p>
+                </div>
+                <div id="set-births">
+                    <input type="checkbox" id="settings-births" name="settings-births" value="true">
+                    <p id="check-label">Do you want to see "on this day" births?</p>
+                </div>
+                <div id="set-deaths">
+                    <input type="checkbox" id="settings-deaths" name="settings-deaths" value="true">
+                    <p id="check-label">Do you want to see "on this day" deaths?</p>
+                </div>
+            </div>
+            <input id="event-submit" type="submit" value="Save Settings">       
+        </form>
+        <div>
+            <h5>Stored Events</h5>
+            <ul id="event-list"></ul>
         </div>
-        <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="btn-yes">Yes</a>
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="btn-no">No</a>
         </div>
     </div>
     
