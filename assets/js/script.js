@@ -705,7 +705,7 @@ $('#settings').click(function(){
     if (drink_userPref.displayCocktail){
         $( '#settings-cocktail' )
             .prop('checked',true)
-    }
+    } 
     if (drink_userPref.displayBeer){
         $( '#settings-beer' )
             .prop('checked',true)
@@ -759,6 +759,39 @@ $('#settings').click(function(){
 
 });
 
+// show/hide DOM elements based on settings
+function displayButtons(data){
+        // beer button
+    if(data.displayBeer){
+        $( '#beer-btn' )
+            .show()
+    } else {
+        $( '#beer-btn' )
+            .hide()
+    }
+        // cocktail button
+    if(data.displayCocktail){
+        $( '#cocktail-btn' )
+            .show()
+        $( '#search-ing-container' )
+            .show()    
+    } else {
+        $( '#cocktail-btn' )
+            .hide()
+        $( '#search-ing-container' )
+            .hide() 
+    }
+        // non-alc button
+    if(data.displayNonAlc){
+        $( '#non-alc-btn' )
+            .show()
+    } else {
+        $( '#non-alc-btn' )
+            .hide()
+    }
+
+}
+
 // check for initial user settings
 function getSettings() {
      // set initial array
@@ -790,6 +823,8 @@ function getSettings() {
         $( '#settings-deaths' )
             .prop('checked',false)
      }
+        // update displayed button
+     displayButtons(drink_userPref)
      return drink_userPref
 }
 
@@ -831,7 +866,7 @@ $('#settings-form').submit(function(event){
     var data = $(this).serializeArray()
     storeSettings(data)
     $('#settings-modal').modal('close');
-    $('#settings-form').trigger('reset')
+    $('#settings-form').trigger('reset');
 })
 
 // store settings
@@ -845,6 +880,7 @@ function storeSettings( data ) {
     displayBeer == undefined ? displayBeer = false : displayBeer = true  
     var displayNonAlc=      data.find(x => x.name === 'settings-non')     
     displayNonAlc == undefined ? displayNonAlc = false : displayNonAlc = true  
+    if(!underage){displayNonAlc = true }
     var factsEvents=        data.find(x => x.name === 'settings-facts')  
     factsEvents == undefined ? factsEvents = false : factsEvents = true 
     var factsBirthdays=     data.find(x => x.name === 'settings-births')    
@@ -863,10 +899,12 @@ function storeSettings( data ) {
         factsDeaths:        factsDeaths,    
     }
 
-    // stringify
+        // stringify
     var string = JSON.stringify( drink_userPref )
         // set to localStorage
     localStorage.setItem( 'drinkspo-settings', string )
+        // update DOM based on settings
+    displayButtons(drink_userPref)
 }
 
 // click on new calendar event button
