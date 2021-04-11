@@ -1170,18 +1170,18 @@ $('#ing-search-btn').on('click', function(event){
     fetch(nonIngUrl).then(function(response) {
 
         //if comes back ok
-        if (response.ok) {
+        console.log(response);
+        // if (response.ok) {
+            console.log("before response.json")
         response.json().then(function(data) {
             console.log(data);
             // put into object to pull from later
             nonAlcRandom ( data );
-        });
-        // if fail
-        } else {
-            console.log ( data );
+        }).catch(function (error) {
             $("#display-text").html("Oh no!  Your search wasn't able to display a result. Please try again");
             error()
-        }
+        })
+        
     })
 
     // catch
