@@ -46,10 +46,40 @@ function getNow() {
     randomLoad()
 };
 
+// randomize the factoid based on available settings
+function randomFactLoad() {
+        // get up to date settings
+    getSettings()
+        // init types
+    var types = []
+        // if setting is true, add the function to the randomizer
+    if(drink_userPref.factsEvents){
+        types.push('events.json')}
+    if(drink_userPref.factsBirthdays){
+        types.push('births.json')}
+    if(drink_userPref.factsDeaths){
+        types.push('deaths.json')}
+
+        // if types has no entries (shouldnt happen) then all are added back in
+    if(!types.length){
+        types = [
+                'events.json',
+                'deaths.json',
+                'births.json',
+            ]
+    }
+
+    // randomized selection
+    var random = Math.floor( Math.random() * types.length )
+    // return random json for appending into link
+    return types[random]
+}
+
 // get factoid API call
 function getFactoid( date ) {  
+    var lookup = randomFactLoad()
     // set api url
-    var apiUrl = `https://byabbe.se/on-this-day/${date.month}/${date.day}/events.json`;
+    var apiUrl = `https://byabbe.se/on-this-day/${date.month}/${date.day}/${lookup}`;
         // fetch
         fetch(apiUrl).then(function(response) {
             //success
@@ -71,17 +101,30 @@ function getFactoid( date ) {
 
 // build factoid object
 function parseFactoid( data ) {
+    var type
+    var add
+    if ( data.events ) {
+        type = 'events'
+        add = ''
+    } else if ( data.births ) {
+        type = 'births'
+        add = ' was born.'
+    } else if ( data.deaths ) {
+        type = 'deaths'
+        add = ' passed away.'
+    }
     // choose random event
-    var allEvents = data.events;
+    var allEvents = data[`${type}`];
     // choose a random number between 0 and the length of the events list
     var random = Math.floor( Math.random() * allEvents.length );
     // set factoid object
-    var factoid = data.events[ random ]
+    var factoid = data[`${type}`][ random ]
     // init output object
     var output = {}
     // set output properties
     output.description = factoid.description;
     output.year = factoid.year
+    output.additional = add
     // send output object to post
     postFactoid( output )
 };
@@ -98,7 +141,7 @@ function postFactoid( data ) {
     var triviaText = $( '<p>' )
         .attr( 'display', 'block' )
         .attr( 'id', 'trivia-text' )
-        .text( data.description );    
+        .text( data.description + data.additional );    
 
     // clear and append to DOM  
     $( '#trivia-title' )
@@ -426,7 +469,6 @@ function randomLoad() {
     // execute random function
     types[random]()
 }
-
 
 // set storage entry
 function setStorage( data, query ) {
