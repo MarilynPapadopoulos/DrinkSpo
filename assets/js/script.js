@@ -400,7 +400,7 @@ function getNonAlcList() {
 
 //Grabs an index number between 0-56 and outputs the corresponding drink id
 function nonAlcRandom ( data ) {
-    var idRandomize = Math.floor(Math.random () * 56)
+    var idRandomize = Math.floor(Math.random () * data.drinks.length)
     var getDrinkId = data.drinks[idRandomize].idDrink;
     //outputs to get all of the non alcaholic drink information to be fetches and parsed
     getNonAlcDrink (getDrinkId);
@@ -1178,6 +1178,7 @@ $('#ing-search-btn').on('click', function(event){
         });
         // if fail
         } else {
+            console.log ( data );
             $("#display-text").html("Oh no!  Your search wasn't able to display a result. Please try again");
             error()
         }
