@@ -24,7 +24,7 @@ https://primalorb.github.io/find_your_drink/
 
 Made with ❤️ by [Aimee Jesso](https://github.com/MissAimeeJay), [Marilyn Papadupoulos](https://github.com/MarilynPapadopoulos), [Swan Pham](https://github.com/swanpham), [Andrew Olgilvie](https://github.com/PrimalOrB)
 
-### ©️2019 Drinkspo Inc - Awesome Possums
+### ©️2021 Drinkspo Inc - Awesome Possums
 
 ![Screenshot](./assets/images/Drinksposcreen.png)
 
