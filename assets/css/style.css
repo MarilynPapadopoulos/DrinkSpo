@@ -47,7 +47,7 @@
   text-decoration: none;
 }
 
-#calendar, 
+#calendar,
 #current-date,
 #settings {
   display: flex;
@@ -125,7 +125,8 @@ h3 {
   color: rgb(240, 77, 213);
 }
 
-#settings:hover, #calendar:hover {
+#settings:hover,
+#calendar:hover {
   color: rgb(240, 77, 213);
 }
 
@@ -183,7 +184,6 @@ h3 {
   align-items: center;
 }
 
-
 #footer-div {
   display: flex;
 }
@@ -212,7 +212,7 @@ h3 {
 
 #buttons-div {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   /* padding-bottom: 20px; */
 }
 
@@ -245,7 +245,7 @@ h3 {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding:2px;
+  padding: 2px;
   padding-top: 8px;
   border-bottom: 1px dotted grey;
 }
@@ -265,7 +265,8 @@ h3 {
   width: 70px;
 }
 
-#display-image, #display-text {
+#display-image,
+#display-text {
   padding-top: 10px;
 }
 
