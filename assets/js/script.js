@@ -1175,6 +1175,8 @@ function askToEmail(data) {
             // init response variable
         $('#email-modal').click('li', function(event){
             var target = $(event.target)
+                        .closest('li')
+            console.log( target)
             var storageIndex = target[0].attributes['store-id'].textContent
                 // find index in displayed list of entity
             var index = storedEvents.findIndex( x => 
