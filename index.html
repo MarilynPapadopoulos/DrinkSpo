@@ -4,204 +4,199 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <!-- Materialize CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- jQuery UI CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" />
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="./assets/css/style.css">
     <title>Drinkspo</title>
+    <!-- favicons -->
     <link rel="apple-touch-icon" sizes="180x180" href="./assets/images/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./assets/images/favicon-16x16.png">
     <link rel="manifest" href="./assets/images/site.webmanifest">
 </head>
 <body>
-<div class="parallax">
-<div class="wrapper">
-
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
+    <div class="parallax">
+        <div class="wrapper">
+            <div class="container">
                 <!--Heading, Page Title, Date, Hamburger Menu-->
                 <div class="row">
-                    <div class="col">
-                        <div id="page-title" class="row">
-                            <img src="./assets/images/logo.png">
-                        </div>
-                        <div class="row" id ="controls">
-                            <div id="calendar" class="col-sm-12 col-md-auto calendar">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span id="calendar-button-text">New Calendar Event</span>
-                            </div>
-                            <div id="current-date" class="col-sm-12 col-md title-text center-align"><h3>Date</h3></div>
-                            <div id="settings" class= "col-sm-12 col-md-auto settings">
-                                    <!-- browse button burger menu button -->
-                                    Settings<a role="button" data-toggle="collapse" data-target="#navbarBrowseButton">
-                                    <span class="navbar-toggler-icon text-center">
-                                    <i class="fas fa-bars"></i>
-                                    </span>
-                                </a>
-                            </div>
-
-<!-- browse button collapse content -->
-<div class="collapse navbar-collapse" id="navbarBrowseButton">
-    <a class="btn btnBrowse dropdown-toggle" role="button" data-toggle="dropdown">Browse</a>
-        <div class="dropdown-menu">
-            <a href="#" class="dropdown-item">Games</a>
-            <a href="#" class="dropdown-item">Popular Lists</a>
-                            </div> 
-                        </div>             
-                    </div>
-                </div>
-
-                <!--Main content, Title, Image, Recipe-->
-                <div class="row cent" id="results-display">
-                    <div id="history" class="col-md-3 history">
-                        <h3>Search History</h3>
-                        <div class="list-group .hide-on-small-only" id ="drink-history">
-                            <ul id="history-list">
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div id="display-title" class="row"></div>
-                        <div id="buttons-div">
-                        <button class="btn-style" id="beer-btn">Beer Randomizer</button>
-                        <button class="btn-style" id="cocktail-btn">Cocktail Randomizer</button>
-                        <button class="btn-style" id="non-alc-btn">Non-Alcoholic</button>
-                        </div>
-                        <div id="search-content">
-                            <form id="search-ing-container" autocomplete="on">
-                                <input type="text" id="ing-search" placeholder="Randomize a cocktail by ingredient">
-                                <input type="button" value="Search" class="btn-search" id="ing-search-btn">
-                            </form>
-                        </div>
+                    <div class="col-sm-12">
                         <div class="row">
-                            <div id="display-image" class="col-md-auto center">
+                            <div class="col">
+                                <div id="page-title" class="row">
+                                    <img src="./assets/images/logo.png">
+                                </div>
+                                <div class="row" id ="controls">
+                                    <div id="calendar" class="col-sm-12 col-md-auto calendar">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <span id="calendar-button-text">New Calendar Event</span>
+                                    </div>
+                                    <div id="current-date" class="col-sm-12 col-md title-text center-align"><h3>Date</h3></div>
+                                    <div id="settings" class= "col-sm-12 col-md-auto settings">
+                                            <!-- browse button burger menu button -->
+                                            Settings<a role="button" data-toggle="collapse" data-target="#navbarBrowseButton">
+                                            <span class="navbar-toggler-icon text-center">
+                                            <i class="fas fa-bars"></i>
+                                            </span></a>
+                                    </div>
+                                </div>
                             </div>
-                            <div id="display-text" class="col">
+
+                            <!--Main content, Title, Image, Recipe-->
+                            <div class="row cent" id="results-display">
+                                <div id="history" class="col-md-3 history">
+                                    <h3>Search History</h3>
+                                    <div class="list-group .hide-on-small-only" id ="drink-history">
+                                        <ul id="history-list">
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div id="display-title" class="row"></div>
+                                    <div id="buttons-div">
+                                    <button class="btn-style" id="beer-btn">Beer Randomizer</button>
+                                    <button class="btn-style" id="cocktail-btn">Cocktail Randomizer</button>
+                                    <button class="btn-style" id="non-alc-btn">Non-Alcoholic</button>
+                                    </div>
+                                    <div id="search-content">
+                                        <form id="search-ing-container" autocomplete="on">
+                                            <input type="text" id="ing-search" placeholder="Randomize a cocktail by ingredient">
+                                            <input type="button" value="Search" class="btn-search" id="ing-search-btn">
+                                        </form>
+                                    </div>
+                                    <div class="row">
+                                        <div id="display-image" class="col-md-auto center">
+                                        </div>
+                                        <div id="display-text" class="col">
+                                        </div>
+                                    </div>
+                                    <div id="trivia-title" class="row">
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                                
+                            <!--Send Email-->
+                            <div id="email-div" class="row-md">
+                                <h5>Send as Email</h5>
+                                <form id="target" autocomplete="on">
+                                    <input type="email" id="email" placeholder="Send this drink to a friend">
+                                    <input type="submit" value="Send Email" class="btn-style">
+                                </form>
+                            </div>
+
+                            <!--Footer, Team Awesome-->
+                            <div id="footer-div" class="row center-align">
+                                <h5>Made with <img class="center-align" src="./assets/images/MagicHat.png"> by Awesome Possums ©2021</h5>   
+                                <h6>API Credit to <a href="https://www.thecocktaildb.com/">The Cocktail DB</a>
+                                <a href="https://punkapi.com/">Punk API</a>
+                                <a href="https://byabbe.se/">Wikipedia, On this Day</a></h6>
                             </div>
                         </div>
-                        <div id="trivia-title" class="row">
-                        </div>
-                        
                     </div>
                 </div>
-                    
-                <!--Send Email-->
-                <div id="email-div" class="row-md">
-                    <h5>Send as Email</h5>
-                    <form id="target" autocomplete="on">
-                        <input type="email" id="email" placeholder="Send this drink to a friend">
-                        <input type="submit" value="Send Email" class="btn-style">
-                    </form>
-                </div>
 
-                <!--Footer, Team Awesome-->
-                <div id="footer-div" class="row center-align"><h5>Made with <img class="center-align" src="./assets/images/MagicHat.png">by Awesome Possums ©2021</h5>   
-                <h6>API Credit to <a href="https://www.thecocktaildb.com/">The Cocktail DB</a>
-                    <a href="https://punkapi.com/">Punk API</a>
-                    <a href="https://byabbe.se/">Wikipedia, On this Day</a></h6>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- Settings Modal -->
-    <div id="settings-modal" class="modal">
-        <div class="modal-content">
-        <h4>Drink Settings</h4>
-        <form id="settings-form">
-            <h5>Settings</h5>
-            <div id="settings-block">
-                <div id="underage-check">
-                    <input type="checkbox" id="settings-underage" name="settings-underage" value="true">
-                    <p id="check-label">Are you aged 19 or over?</p>
-                </div>
-                <div id="set-cocktail">
-                    <input type="checkbox" id="settings-cocktail" name="settings-cocktail" value="true">
-                    <p id="check-label">Do you want to see cocktails?</p>
-                </div>
-                <div id="set-beer">
-                    <input type="checkbox" id="settings-beer" name="settings-beer" value="true">
-                    <p id="check-label">Do you want to see beers?</p>
-                </div>
-                <div id="set-non">
-                    <input type="checkbox" id="settings-non" name="settings-non" value="true">
-                    <p id="check-label">Do you want to see non-alcoholic drinks?</p>
-                </div>
-                <div id="set-facts">
-                    <input type="checkbox" id="settings-facts" name="settings-facts" value="true">
-                    <p id="check-label">Do you want to see "on this day" historical facts?</p>
-                </div>
-                <div id="set-births">
-                    <input type="checkbox" id="settings-births" name="settings-births" value="true">
-                    <p id="check-label">Do you want to see "on this day" births?</p>
-                </div>
-                <div id="set-deaths">
-                    <input type="checkbox" id="settings-deaths" name="settings-deaths" value="true">
-                    <p id="check-label">Do you want to see "on this day" deaths?</p>
-                </div>
-            </div>
-            <input id="event-submit" type="submit" value="Save Settings">       
-        </form>
-        <div>
-            <h5>Stored Events</h5>
-            <ul id="event-list"></ul>
-        </div>
-        </div>
-    </div>
-    
-     <!-- Email Modal -->
-    <div id="email-modal" class="modal">
-        <div class="modal-header">
-            <h4>Email Modal</h4>
-        </div>
-        <div class="modal-content" id="email-content">
-
-        </div>
-    </div>
-
-    <!-- New Event Modal -->
-    <div id="calendar-modal" class="modal">
-        <div class="modal-header">
-            <h4>New Calendar Event</h4>
-        </div>
-        <div class="modal-content">
-            <div id="calendar-entry">
-                <div id="event-content">
-                    <form id="event-form">
-                        <label for="contact-name">Name</label>
-                        <input id="contact-name" name="contact-name" type="text" placeholder="Enter Name" required>
-                        <label for="contact-email">Email</label>
-                        <input id="contact-email" name="contact-email" type="email" placeholder="Enter Email" required>
-                        <label for="contact-content">Personal Note</label>
-                        <textarea id="contact-content" name="contact-content" rows="4" placeholder="Enter Personal Message"></textarea> 
-                        <label for="contact-date">Date</label>
-                        <input id="contact-date" name="contact-date" type="text" placeholder="Enter Date" required>
-                        <label for="event-recurring">Annual Recurring Event</label><br>
-                        <div>
-                            <input type="checkbox" id="event-recurring" name="event-recurring" value="true">
-                            <p id="check-label">True</p>
+                <!-- Settings Modal -->
+                <div id="settings-modal" class="modal">
+                    <div class="modal-content">
+                    <h4>Drink Settings</h4>
+                    <form id="settings-form">
+                        <h5>Settings</h5>
+                        <div id="settings-block">
+                            <div id="underage-check">
+                                <input type="checkbox" id="settings-underage" name="settings-underage" value="true">
+                                <p id="check-label">Are you aged 19 or over?</p>
+                            </div>
+                            <div id="set-cocktail">
+                                <input type="checkbox" id="settings-cocktail" name="settings-cocktail" value="true">
+                                <p id="check-label">Do you want to see cocktails?</p>
+                            </div>
+                            <div id="set-beer">
+                                <input type="checkbox" id="settings-beer" name="settings-beer" value="true">
+                                <p id="check-label">Do you want to see beers?</p>
+                            </div>
+                            <div id="set-non">
+                                <input type="checkbox" id="settings-non" name="settings-non" value="true">
+                                <p id="check-label">Do you want to see non-alcoholic drinks?</p>
+                            </div>
+                            <div id="set-facts">
+                                <input type="checkbox" id="settings-facts" name="settings-facts" value="true">
+                                <p id="check-label">Do you want to see "on this day" historical facts?</p>
+                            </div>
+                            <div id="set-births">
+                                <input type="checkbox" id="settings-births" name="settings-births" value="true">
+                                <p id="check-label">Do you want to see "on this day" births?</p>
+                            </div>
+                            <div id="set-deaths">
+                                <input type="checkbox" id="settings-deaths" name="settings-deaths" value="true">
+                                <p id="check-label">Do you want to see "on this day" deaths?</p>
+                            </div>
                         </div>
-                        <input id="event-submit" type="submit" value="Add Event">
+                        <input id="event-submit" type="submit" value="Save Settings">       
                     </form>
+                    <div>
+                        <h5>Stored Events</h5>
+                        <ul id="event-list"></ul>
+                    </div>
+                    </div>
+                </div>
+                
+                <!-- Email Modal -->
+                <div id="email-modal" class="modal">
+                    <div class="modal-header">
+                        <h4>Send stored email event!</h4>
+                    </div>
+                    <div class="modal-content" id="email-content">
+
+                    </div>
                 </div>
 
+                <!-- New Event Modal -->
+                <div id="calendar-modal" class="modal">
+                    <div class="modal-header">
+                        <h4>New Calendar Event</h4>
+                    </div>
+                    <div class="modal-content">
+                        <div id="calendar-entry">
+                            <div id="event-content">
+                                <form id="event-form" autocomplete="off">
+                                    <label for="contact-name">Name</label>
+                                    <input id="contact-name" name="contact-name" type="text" placeholder="Enter Name" required>
+                                    <label for="contact-email">Email</label>
+                                    <input id="contact-email" name="contact-email" type="email" placeholder="Enter Email" required>
+                                    <label for="contact-content">Personal Note</label>
+                                    <textarea id="contact-content" name="contact-content" rows="4" placeholder="Enter Personal Message"></textarea> 
+                                    <label for="contact-date">Date</label>
+                                    <input id="contact-date" name="contact-date" type="text" placeholder="Enter Date" required>
+                                    <label for="event-recurring">Annual Recurring Event</label><br>
+                                    <div>
+                                        <input type="checkbox" id="event-recurring" name="event-recurring" value="true">
+                                        <p id="check-label">True</p>
+                                    </div>
+                                    <input id="event-submit" type="submit" value="Add Event">
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-
-
-  <!-- Add jQuery -->
+    <!-- Add jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+    <!-- Materialize JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- Page JS -->
     <script src="./assets/js/script.js"></script>
-</div>
-</div>
 </body>
 </html>
